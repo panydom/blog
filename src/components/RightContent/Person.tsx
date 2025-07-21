@@ -9,7 +9,7 @@ const Person = () => {
                 <Avatar className={`w-16 h-16`}>
                     <AvatarImage src="/head.jfif" alt='头像' />
                 </Avatar>
-                <CardDescription className={`mt-4`}>竹与墨，晴与蝉</CardDescription>
+                <CardDescription className={`mt-4`}>竹与墨，琴与孜然烤肉</CardDescription>
             </CardHeader>
             <div className={`px-10`}>
                 <Separator></Separator>

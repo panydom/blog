@@ -1,8 +1,9 @@
 import Person from "@/components/RightContent/Person"
 import Calendar from "@/components/RightContent/Calendar"
+import { getIndexPageData } from '@/lib/articles'
 
-
-export default function Home() {
+export default async function Home() {
+    await getIndexPageData();
     return (
         <div className={`flex`}>
             <div className={`flex-1`}></div>

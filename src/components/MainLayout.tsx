@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import PageHeader from "./Header"
+import PageHeader from "./Header/index"
 import PageFooter from "./Footer"
 
 type MainLayout = { children: ReactNode }
