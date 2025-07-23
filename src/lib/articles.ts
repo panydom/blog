@@ -1,10 +1,18 @@
 import { clientSupabaseInstance } from './supabase'
-
-export async function getIndexPageData() {
-    const { data, error, ...args } = await clientSupabaseInstance
+/**
+ * https://supabase.com/docs/reference/javascript/select
+ */
+export async function getIndexPageData(page: number, size: number = 10,) {
+    const { data, error, count = 0, ...args } = await clientSupabaseInstance
         .from('articles')
-        .select()
+        .select("*", { count: "exact" })
+        .range((page - 1) * size, page * size)
 
-    console.log(data, error, args);
-
+    return {
+        data, count: count || 0
+    }
 }
+
+
+
+export type PostData = ResolvedReturnType<typeof getIndexPageData>['data']

@@ -6,6 +6,9 @@ import { ThemeProvider } from '@/context/themeContext'
 export const metadata: Metadata = {
     title: "竹与墨",
     description: "记录想法的点滴，汇聚成竹林",
+    icons: {
+        icon: '/favicon.ico'
+    }
 };
 
 export default function RootLayout({
