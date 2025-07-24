@@ -22,7 +22,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
             <div className={`w-80 sticky top-0 ml-6`}>
                 <Person></Person>
                 <div className={`mt-5`}>
-                    {/* <Calendar ></Calendar> */}
+                    <Calendar ></Calendar>
                 </div>
             </div>
         </div>

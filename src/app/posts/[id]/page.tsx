@@ -4,13 +4,12 @@ import Link from 'next/link'
 import dayjs from 'dayjs'
 
 interface PostProps {
-    params: { id: number }
+    params: Promise<{ id: number }>
 }
 
 const Post = async ({ params }: PostProps) => {
     const { id } = await params
     const { data: article } = await getPostDetail(id)
-    // return JSON.stringify(data)
 
     if (!article) {
         notFound()
