@@ -9,7 +9,7 @@ const PageHeader = () => {
                 <div className="leading-16 text-2xl flex-1">
                     <Bird className='inline-block -mt-[10px]' size={36}></Bird>
                     <Link href="/" className='ml-4'>竹与墨</Link>
-                    <span className="ml-2 text-sm self-end text-neutral-700">竹与墨，琴与孜然烤肉</span>
+                    <span className="ml-2 text-sm self-end text-neutral-700">琴与孜然烤肉</span>
                 </div>
                 <div className={`leading-16 flex items-center gap-6`}>
                     <Link href="/" target='__blank'>首页</Link>

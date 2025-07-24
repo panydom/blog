@@ -59,7 +59,7 @@ export function Pagination({ page, size, count }: PaginationComponentProps) {
     }
 
     return (
-        <ShadcnPagination>
+        <ShadcnPagination className="mt-4">
             <PaginationContent>
                 <PaginationItem onClick={() => onPageActive(page - 1)}>
                     <PaginationPrevious href="#" label="上一页" />
