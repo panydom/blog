@@ -1,6 +1,6 @@
-import type { ReactNode } from "react"
-import PageHeader from "./Header/index"
-import PageFooter from "./Footer"
+import type { ReactNode } from "react";
+import PageHeader from "./Header/index";
+import PageFooter from "./Footer";
 
 type MainLayout = { children: ReactNode }
 
@@ -13,7 +13,7 @@ const MainLayout = ({ children }: MainLayout) => {
             </div>
             <PageFooter></PageFooter>
         </div>
-    )
-}
+    );
+};
 
-export default MainLayout
+export default MainLayout;

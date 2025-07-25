@@ -1,9 +1,9 @@
-'use client'
-import { useState } from 'react'
-import { Calendar as ShadcnCalendar } from "@/components/ui/calendar"
+'use client';
+import { useState } from 'react';
+import { Calendar as ShadcnCalendar } from "@/components/ui/calendar";
 
 const Calendar = () => {
-    const [date, setDate] = useState<Date | undefined>(new Date())
+    const [date, setDate] = useState<Date | undefined>(new Date());
     return (
         <ShadcnCalendar
             className={`w-full rounded-md border`}
@@ -11,7 +11,7 @@ const Calendar = () => {
             selected={date}
             onSelect={setDate}
         />
-    )
-}
+    );
+};
 
-export default Calendar
+export default Calendar;

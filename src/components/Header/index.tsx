@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import { Bird } from 'lucide-react'
+import Link from 'next/link';
+import { Bird } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
 const PageHeader = () => {
@@ -18,7 +18,7 @@ const PageHeader = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default PageHeader
+export default PageHeader;

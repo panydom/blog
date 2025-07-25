@@ -1,10 +1,10 @@
 
 import { Suspense } from "react";
-import { Eye } from 'lucide-react'
+import { Eye } from 'lucide-react';
 import Image from "next/image";
 import Link from "next/link";
 import { Pagination, type PaginationProps } from "@/components/common/Pagination";
-import type { PostData } from '@/lib/articles'
+import type { PostData } from '@/lib/articles';
 
 interface PostsProps extends PaginationProps {
     data: PostData;
@@ -25,7 +25,7 @@ const Posts = ({ data, count, page, size }: PostsProps) => {
                             </div>
                             <div className="ml-4">
                                 <div className="line-clamp-2 overflow-hidden font-bold text-lg cursor-pointer">
-                                    <Link href={`/posts/${article.id}`}>{article.title}</Link>
+                                    <Link href={`/article/${article.id}`}>{article.title}</Link>
                                 </div>
                                 <div className="line-clamp-2 overflow-hidden mt-4 text-neutral-500 dark:text-neutral-100">{article.content}</div>
                                 <div className="text-neutral-500 dark:text-neutral-100 flex items-center mt-2">
@@ -33,14 +33,14 @@ const Posts = ({ data, count, page, size }: PostsProps) => {
                                 </div>
                             </div>
                         </div>
-                    )
+                    );
                 })
             }
             <Suspense fallback={<></>}>
                 <Pagination page={page} size={size} count={count}></Pagination>
             </Suspense>
         </>
-    )
-}
+    );
+};
 
 export default Posts;

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
     Pagination as ShadcnPagination,
@@ -8,7 +8,7 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
 import { useMemo } from "react";
 
 export interface PaginationProps {
@@ -24,34 +24,34 @@ export interface PaginationComponentProps extends PaginationProps {
 type OnPageActive = (page: number) => void
 
 function getOtherPage(left: number, right: number, onChange: OnPageActive) {
-    const items = []
+    const items = [];
     let hasEllipsis = false;
     for (let index = left; index < right + 1; index++) {
-        let item = null
-        const isEdge = index === left || index === right
+        let item = null;
+        const isEdge = index === left || index === right;
         if (!isEdge && hasEllipsis) {
-            continue
+            continue;
         }
         else {
-            item = isEdge ? <PaginationLink onClick={() => onChange(index)} href="#">{index}</PaginationLink> : <PaginationEllipsis />
+            item = isEdge ? <PaginationLink onClick={() => onChange(index)} href="#">{index}</PaginationLink> : <PaginationEllipsis />;
             if (!isEdge) {
-                hasEllipsis = true
+                hasEllipsis = true;
             }
             items.push((
                 <PaginationItem key={`previous-${index}`}>{item}</PaginationItem>
-            ))
+            ));
         }
 
     }
-    return items
+    return items;
 }
 
 export function Pagination({ page, size, count }: PaginationComponentProps) {
 
-    const num = useMemo(() => Math.ceil(count / size), [count, size])
+    const num = useMemo(() => Math.ceil(count / size), [count, size]);
 
-    const previous = useMemo(() => getOtherPage(1, page - 1, onPageActive), [page])
-    const next = useMemo(() => getOtherPage(page + 1, num, onPageActive), [page, num])
+    const previous = useMemo(() => getOtherPage(1, page - 1, onPageActive), [page]);
+    const next = useMemo(() => getOtherPage(page + 1, num, onPageActive), [page, num]);
 
     function onPageActive(page: number) {
         console.log(page);
@@ -76,5 +76,5 @@ export function Pagination({ page, size, count }: PaginationComponentProps) {
                 </PaginationItem>
             </PaginationContent>
         </ShadcnPagination>
-    )
+    );
 }

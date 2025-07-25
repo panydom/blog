@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
-import Person from "@/components/RightContent/Person"
-import Calendar from "@/components/RightContent/Calendar"
+import Person from "@/components/RightContent/Person";
+import Calendar from "@/components/RightContent/Calendar";
 import Posts from "./Posts";
-import { getIndexPageData } from '@/lib/articles'
+import { getIndexPageData } from '@/lib/articles';
 
 export const metadata: Metadata = {
 
-}
+};
 
 const size = 10;
 
@@ -26,5 +26,5 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
                 </div>
             </div>
         </div>
-    )
+    );
 }

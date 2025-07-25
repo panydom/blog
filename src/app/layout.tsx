@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import MainLayout from '../components/MainLayout'
-import { ThemeProvider } from '@/context/themeContext'
+import MainLayout from '../components/MainLayout';
+import { ThemeProvider } from '@/context/themeContext';
 
 export const metadata: Metadata = {
     title: "竹与墨",
