@@ -1,6 +1,8 @@
+import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import { Bird } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import LoginButton from "./LoginButton";
 
 const PageHeader = () => {
     return (
@@ -14,6 +16,7 @@ const PageHeader = () => {
                 <div className={`leading-16 flex items-center gap-6`}>
                     <Link href="/" target='__blank'>首页</Link>
                     <Link href="https://github.com/panydom/blog" target='__blank'>Github</Link>
+                    <LoginButton></LoginButton>
                     <ThemeToggle></ThemeToggle>
                 </div>
             </div>

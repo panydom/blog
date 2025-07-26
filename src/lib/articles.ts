@@ -33,6 +33,15 @@ export async function getPostDetail(id: number) {
 
 /**
  * 将文章的浏览量自增1
+ * create or replace function increment_view_count (article_id int)
+returns void as
+$$
+  update public.articles
+  set view_count = view_count + 1
+  where id = article_id;
+$$
+language sql volatile;
+
  * @param id 
  */
 export async function incrementViewCount(id: number) {

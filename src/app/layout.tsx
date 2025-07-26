@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import MainLayout from '../components/MainLayout';
 import { ThemeProvider } from '@/context/themeContext';
+import { Toaster } from '@/components/ui/sonner';
+import { AuthProvider } from '@/context/AuthContext';
+
 
 export const metadata: Metadata = {
     title: "竹与墨",
@@ -25,9 +28,12 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <MainLayout>
-                        {children}
-                    </MainLayout>
+                    <AuthProvider>
+                        <Toaster position="top-right"></Toaster>
+                        <MainLayout>
+                            {children}
+                        </MainLayout>
+                    </AuthProvider>
                 </ThemeProvider>
             </body>
         </html>
