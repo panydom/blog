@@ -10,13 +10,13 @@ import {
     DropdownMenuTrigger,
     DropdownMenuShortcut
 } from "@/components/ui/dropdown-menu";
-import { LogOut } from "lucide-react";
+import { LogOut, SquareChevronRight } from "lucide-react";
 
 
 import { useAuth } from '@/context/AuthContext';
 
 const LoginButton = () => {
-    const { user, logout } = useAuth();
+    const { user, isAdmin, logout } = useAuth();
 
     if (!user) {
         return (
@@ -30,6 +30,16 @@ const LoginButton = () => {
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>账号设置</DropdownMenuLabel>
                 <DropdownMenuSeparator></DropdownMenuSeparator>
+                {
+                    isAdmin && (
+                        <Link href='/admin'>
+                            <DropdownMenuItem>
+                                <SquareChevronRight />
+                                <span>控制台</span>
+                            </DropdownMenuItem>
+                        </Link>
+                    )
+                }
                 <DropdownMenuItem onClick={logout}>
                     <LogOut />
                     <span>退出登录</span>

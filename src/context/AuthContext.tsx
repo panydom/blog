@@ -1,14 +1,15 @@
 'use client';
 
 import { createContext, ReactNode, useEffect, useState, useContext } from 'react';
-import { getCurrentUser, SignOut, SignIn } from '@/lib/auth';
+import { getCurrentUser, SignOut, SignIn, checkSessionAndRefresh } from '@/lib/auth';
 import { type User } from '@/lib/auth';
 import { toast } from 'sonner';
-import { redirect } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter, useSearchParams, usePathname } from 'next/navigation';
 
 type Auth = {
     user: User;
+    isAdmin: boolean;
+    loading: boolean;
     logout: () => void,
     login: (prevState: object, formData: FormData) => ReturnType<typeof SignIn>,
     updateUserInfo: () => void;
@@ -19,12 +20,28 @@ export const AuthContext = createContext({} as Auth);
 export function AuthProvider({ children }: { children: ReactNode }) {
 
     const [user, setUser] = useState<User>(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
+    const params = useSearchParams();
+    const pathname = usePathname();
 
     async function updateUserInfo() {
-        const res = await getCurrentUser();
-        if (res.error || !res.data.user) return;
-        setUser(res.data.user);
+        try {
+            setLoading(true);
+            const res = await getCurrentUser();
+            if (res.error || !res.data.user) {
+                setIsAdmin(false);
+                setUser(null);
+            }
+            else {
+                setIsAdmin(res.isAdmin);
+                setUser(res.data.user);
+            }
+        }
+        finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -44,6 +61,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
     }, []);
 
+    const checkSession = async () => {
+        const session = await checkSessionAndRefresh();
+        console.log(new Date(), session);
+
+        if (!session) {
+            setUser(null);
+            setIsAdmin(false);
+            router.push('/login');
+        }
+    };
+
+    useEffect(() => {
+        if (user) {
+            checkSession();
+            const timer = setInterval(() => {
+                checkSession();
+            }, 1000 * 60 * 5);
+            return () => clearInterval(timer);
+        }
+    }, [user]);
+
     async function logout() {
         try {
             await SignOut();
@@ -59,8 +97,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async function login(prevState: object, formData: FormData) {
         try {
             const res = await SignIn(formData);
-            updateUserInfo();
-            router.push('/');
+            if (res.success) {
+                updateUserInfo();
+                router.push(params.get('redirect') || '/');
+            }
             return res;
         }
         catch (e) {
@@ -74,7 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, logout, login, updateUserInfo }}>
+        <AuthContext.Provider value={{ user, isAdmin, loading, logout, login, updateUserInfo }}>
             {children}
         </AuthContext.Provider>
 
@@ -87,9 +127,10 @@ export const useAuth = () => {
 
 export const useLogined = () => {
     const { user } = useContext(AuthContext);
+    const params = useSearchParams();
     useEffect(() => {
         if (user) {
-            redirect('/');
+            redirect(params.get('redirect') || '/');
         }
     }, [user]);
 };

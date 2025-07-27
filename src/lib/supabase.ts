@@ -26,7 +26,7 @@ export const createSupebaseClient = () => {
     return createBrowserClient(supabaseUrl, supabaseKey);
 };
 
-export const createServerSupebaseClient = async () => {
+export const createServerSupabaseClient = async () => {
     const cookieStore = await cookies();
     return createServerClient(supabaseUrl, supabaseKey, {
         cookies: {

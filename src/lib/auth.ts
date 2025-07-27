@@ -1,13 +1,13 @@
 'use server';
 import { z } from 'zod';
-import { createClientSupabaseClient, createServerSupebaseClient } from './supabase';
+import { createClientSupabaseClient, createServerSupabaseClient } from './supabase';
 // import { cookies } from 'next/headers';
 // import {NextResponse} from 'next/server'
 
 export async function getCurrentUser() {
-    const supabase = await createServerSupebaseClient();
+    const supabase = await createServerSupabaseClient();
     const { data, error } = await supabase.auth.getUser();
-    return { data, error };
+    return { data, error, isAdmin: data.user?.email === 'bianqu@f5.si' };
 }
 
 export type User = ResolvedReturnType<typeof getCurrentUser>['data']['user'];
@@ -48,7 +48,7 @@ export async function createAccount(prevState: object, formData: FormData) {
 
 export async function SignIn(formData: FormData) {
     try {
-        const supabase = await createServerSupebaseClient();
+        const supabase = await createServerSupabaseClient();
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
 
@@ -75,7 +75,7 @@ export async function SignIn(formData: FormData) {
 }
 
 export async function SignOut() {
-    const supabase = await createServerSupebaseClient();
+    const supabase = await createServerSupabaseClient();
     const { error } = await supabase.auth.signOut({ scope: 'local' });
     console.log(error);
 
@@ -94,4 +94,23 @@ export async function watchAuthChange(callback: (user: User) => void) {
             callback(null);
         }
     });
+}
+
+export async function checkSessionAndRefresh() {
+    const supabase = await createServerSupabaseClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.expires_at) {
+        return null;
+    }
+    const expireAt = new Date(session.expires_at * 1000);
+    const now = Date.now();
+    // 不足5分钟，需要刷新
+    if (expireAt.getTime() - now < 5 * 60 * 1000) {
+        const { data, error } = await supabase.auth.refreshSession();
+        if (error) {
+            return null;
+        }
+        return data.session;
+    }
+    return session;
 }
