@@ -1,11 +1,12 @@
-import { clientSupabaseInstance } from './supabase';
+import { createClientSupabaseClient } from './supabase';
 /**
  * https://supabase.com/docs/reference/javascript/select
  */
 export async function getIndexPageData(page: number, size: number = 10,) {
     // The `range` method is inclusive. `range(0, 9)` gets 10 items.
     // Also, it's good practice to return the error object for the caller to handle.
-    const { data, error, count } = await clientSupabaseInstance
+    const supabase = await createClientSupabaseClient();
+    const { data, error, count } = await supabase
         .from('articles')
         .select("*", { count: "exact" })
         .range((page - 1) * size, page * size - 1);
@@ -22,7 +23,8 @@ export type PostData = ResolvedReturnType<typeof getIndexPageData>['data']
 export async function getPostDetail(id: number) {
     // Use .single() to fetch a single record. It's more idiomatic and efficient.
     // It will return an error if no record is found or if multiple are found.
-    const { data, error } = await clientSupabaseInstance
+    const supabase = await createClientSupabaseClient();
+    const { data, error } = await supabase
         .from('articles')
         .select("*")
         .eq('id', id)
@@ -47,8 +49,9 @@ language sql volatile;
 export async function incrementViewCount(id: number) {
     // Use the RPC function created in the Supabase SQL Editor for an atomic increment.
     // This prevents race conditions.
+    const supabase = await createClientSupabaseClient();
     // @ts-expect-error never
-    const { error } = await clientSupabaseInstance.rpc('increment_view_count', {
+    const { error } = await supabase.rpc('increment_view_count', {
         article_id: id,
     });
 
@@ -64,7 +67,8 @@ export async function incrementViewCount(id: number) {
  * @returns 返回最新的10篇文章列表
  */
 export async function getRecentArticles() {
-    const { data, error } = await clientSupabaseInstance
+    const supabase = await createClientSupabaseClient();
+    const { data, error } = await supabase
         .from('articles')
         .select('id')
         .order('updated_at', { ascending: false })

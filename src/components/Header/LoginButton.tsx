@@ -1,16 +1,42 @@
 'use client';
-import { useContext } from 'react';
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+    DropdownMenuShortcut
+} from "@/components/ui/dropdown-menu";
+import { LogOut } from "lucide-react";
 
-import { AuthContext } from '@/context/AuthContext';
+
+import { useAuth } from '@/context/AuthContext';
 
 const LoginButton = () => {
-    const data = useContext(AuthContext);
-    console.log(data);
+    const { user, logout } = useAuth();
+
+    if (!user) {
+        return (
+            <Link href="/login"><Button>登录</Button></Link>
+        );
+    }
 
     return (
-        <Link href="/login"><Button>登录</Button></Link>
+        <DropdownMenu>
+            <DropdownMenuTrigger className="outline-0">{user.email}</DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>账号设置</DropdownMenuLabel>
+                <DropdownMenuSeparator></DropdownMenuSeparator>
+                <DropdownMenuItem onClick={logout}>
+                    <LogOut />
+                    <span>退出登录</span>
+                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 };
 

@@ -6,8 +6,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { createAccount, SignIn } from '@/lib/auth';
+import { createAccount } from '@/lib/auth';
 import { toast } from 'sonner';
+import { useAuth } from '@/context/AuthContext';
 
 const initialState = {
     message: null
@@ -37,8 +38,8 @@ const Form = ({
     onSuccess?: () => void,
     isLogin?: boolean
 }) => {
-
-    const [state, formAction] = useActionState(isLogin ? SignIn : createAccount, initialState);
+    const { login } = useAuth();
+    const [state, formAction] = useActionState(isLogin ? login : createAccount, initialState);
 
     useEffect(() => {
         if (state?.message) {
@@ -58,7 +59,7 @@ const Form = ({
             <CardContent className="space-y-2">
                 <div className='space-y-1'>
                     <Label htmlFor='email'>Email</Label>
-                    <Input id="email" name="email" placeholder='Your email, e.g you@google.com'></Input>
+                    <Input id="email" name="email" placeholder='you@google.com'></Input>
                 </div>
                 <div className="space-y-1 mt-4">
                     <Label htmlFor="password">Password</Label>

@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import Form from '../_components/Form';
+import { useLogined } from '@/context/AuthContext';
 
 
 const RegisterPage = () => {
+    useLogined();
 
     const [success, setSuccess] = useState(false);
     const onSuccess = () => {

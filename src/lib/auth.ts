@@ -1,11 +1,16 @@
 'use server';
 import { z } from 'zod';
-import { clientSupabaseInstance } from './supabase';
+import { createClientSupabaseClient, createServerSupebaseClient } from './supabase';
+// import { cookies } from 'next/headers';
+// import {NextResponse} from 'next/server'
 
 export async function getCurrentUser() {
-    const { data, error } = await clientSupabaseInstance.auth.getUser();
+    const supabase = await createServerSupebaseClient();
+    const { data, error } = await supabase.auth.getUser();
     return { data, error };
 }
+
+export type User = ResolvedReturnType<typeof getCurrentUser>['data']['user'];
 
 export async function createAccount(prevState: object, formData: FormData) {
     try {
@@ -15,7 +20,8 @@ export async function createAccount(prevState: object, formData: FormData) {
         });
 
         const data = schema.parse(Object.fromEntries(formData));
-        const res = await clientSupabaseInstance
+        const supabase = await createClientSupabaseClient();
+        const res = await supabase
             .auth.signUp({
                 email: data.email,
                 password: data.password,
@@ -23,8 +29,6 @@ export async function createAccount(prevState: object, formData: FormData) {
         if (res.error) {
             throw res.error;
         }
-        console.log(data);
-
         return {
             message: "Register Success",
             success: true
@@ -42,19 +46,19 @@ export async function createAccount(prevState: object, formData: FormData) {
     }
 }
 
-export async function SignIn(prevState: object, formData: FormData) {
+export async function SignIn(formData: FormData) {
     try {
+        const supabase = await createServerSupebaseClient();
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
 
         if (!email || !password) {
             return { message: 'Email and password are required.', success: false };
         }
-        const { data, error } = await clientSupabaseInstance.auth.signInWithPassword({
+        const { error } = await supabase.auth.signInWithPassword({
             email,
             password,
         });
-        console.log(data, error);
         if (error) {
             throw error;
         }
@@ -68,4 +72,26 @@ export async function SignIn(prevState: object, formData: FormData) {
         return { message: e?.message || 'Unknow Error' };
     }
 
+}
+
+export async function SignOut() {
+    const supabase = await createServerSupebaseClient();
+    const { error } = await supabase.auth.signOut({ scope: 'local' });
+    console.log(error);
+
+    if (error) {
+        throw error;
+    }
+}
+
+export async function watchAuthChange(callback: (user: User) => void) {
+    const supabase = await createClientSupabaseClient();
+    return supabase.auth.onAuthStateChange((event, session) => {
+        if (session?.user) {
+            callback(session.user);
+        }
+        else {
+            callback(null);
+        }
+    });
 }
