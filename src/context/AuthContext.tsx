@@ -4,7 +4,7 @@ import { createContext, ReactNode, useEffect, useState, useContext } from 'react
 import { getCurrentUser, SignOut, SignIn, checkSessionAndRefresh } from '@/lib/auth';
 import { type User } from '@/lib/auth';
 import { toast } from 'sonner';
-import { redirect, useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { redirect, useRouter, useSearchParams } from 'next/navigation';
 
 type Auth = {
     user: User;
@@ -24,7 +24,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     const params = useSearchParams();
-    const pathname = usePathname();
 
     async function updateUserInfo() {
         try {

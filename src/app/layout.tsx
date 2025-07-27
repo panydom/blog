@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from "next";
 import "./globals.css";
 import MainLayout from '../components/MainLayout';
@@ -28,12 +29,14 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <AuthProvider>
-                        <Toaster position="top-right"></Toaster>
-                        <MainLayout>
-                            {children}
-                        </MainLayout>
-                    </AuthProvider>
+                    <Suspense>
+                        <AuthProvider>
+                            <Toaster position="top-right"></Toaster>
+                            <MainLayout>
+                                {children}
+                            </MainLayout>
+                        </AuthProvider>
+                    </Suspense>
                 </ThemeProvider>
             </body>
         </html>

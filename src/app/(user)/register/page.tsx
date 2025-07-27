@@ -6,7 +6,6 @@ import { redirect } from 'next/navigation';
 import Form from '../_components/Form';
 import { useLogined } from '@/context/AuthContext';
 
-
 const RegisterPage = () => {
     useLogined();
 
@@ -31,7 +30,7 @@ const RegisterPage = () => {
 
     const content = success ? (
         <div className='w-[720px] mx-auto text-center'>
-            congratulate! register success, please wait to redirect to login page.
+            恭喜！注册成功，正在跳转到登录页面...
         </div>
     ) : (
         <div className='w-[400px] mx-auto '>

@@ -6,8 +6,6 @@ import LoginGithub from './login-github';
 import Form from '../_components/Form';
 import { useLogined } from '@/context/AuthContext';
 
-export const experimental_ppr = true;
-
 const Login = () => {
     useLogined();
 
