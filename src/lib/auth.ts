@@ -7,7 +7,7 @@ import { createClientSupabaseClient, createServerSupabaseClient } from './supaba
 export async function getCurrentUser() {
     const supabase = await createServerSupabaseClient();
     const { data, error } = await supabase.auth.getUser();
-    return { data, error, isAdmin: data.user?.email === 'bianqu@f5.si' };
+    return { data, error, isAdmin: data.user?.email === process.env.ADMIN_EMAIL };
 }
 
 export type User = ResolvedReturnType<typeof getCurrentUser>['data']['user'];
@@ -77,7 +77,6 @@ export async function SignIn(formData: FormData) {
 export async function SignOut() {
     const supabase = await createServerSupabaseClient();
     const { error } = await supabase.auth.signOut({ scope: 'local' });
-    console.log(error);
 
     if (error) {
         throw error;

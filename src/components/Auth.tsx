@@ -13,7 +13,6 @@ interface AuthProps {
 const AuthComponent = ({ requireAdmin = false, requireLogin = false, children }: AuthProps) => {
     const { user, isAdmin, loading } = useAuth();
     const router = useRouter();
-    console.log(user, isAdmin, loading);
 
     useEffect(() => {
         if (loading) {
@@ -38,7 +37,7 @@ const AuthComponent = ({ requireAdmin = false, requireLogin = false, children }:
     if (loading) {
         return (
             <div className='mt-[200px] text-center flex items-center justify-center'>
-                <Loader2 className="animate-spin mr-4"></Loader2>验证登录状态...
+                <Loader2 className="animate-spin mr-4"></Loader2>验证权限中...
             </div>
         );
     }

@@ -1,14 +1,14 @@
 import { createClientSupabaseClient } from './supabase';
+
 /**
  * https://supabase.com/docs/reference/javascript/select
  */
 export async function getIndexPageData(page: number, size: number = 10,) {
-    // The `range` method is inclusive. `range(0, 9)` gets 10 items.
-    // Also, it's good practice to return the error object for the caller to handle.
     const supabase = await createClientSupabaseClient();
     const { data, error, count } = await supabase
         .from('articles')
         .select("*", { count: "exact" })
+        .order('updated_at', { ascending: false })
         .range((page - 1) * size, page * size - 1);
 
     return {
@@ -16,9 +16,9 @@ export async function getIndexPageData(page: number, size: number = 10,) {
     };
 }
 
-
-
 export type PostData = ResolvedReturnType<typeof getIndexPageData>['data']
+
+export type PostType = NonNullable<PostData>[0]
 
 export async function getPostDetail(id: number) {
     // Use .single() to fetch a single record. It's more idiomatic and efficient.
@@ -75,4 +75,23 @@ export async function getRecentArticles() {
         .limit(10);
 
     return { data, error };
+}
+
+/**
+ * 控制台获取文章
+ * @param page 
+ * @param size 
+ * @returns 
+ */
+export async function getAllArticles(page: number, size: number = 10) {
+    const supabase = await createClientSupabaseClient();
+    const { data, error, count } = await supabase
+        .from('articles')
+        .select('id, title, view_count, created_at, updated_at', { count: "exact" })
+        .order('updated_at', { ascending: false })
+        .range((page - 1) * size, page * size - 1);
+
+    return {
+        data, count: count || 0, error
+    };
 }

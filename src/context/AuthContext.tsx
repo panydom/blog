@@ -47,8 +47,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // let watch: ResolvedReturnType<typeof watchAuthChange>['data'];
         // async function startWatch() {
         //     const { data } = await watchAuthChange(user => {
-        //         console.log(user);
-
         //     });
         //     watch = data;
         // }
@@ -88,7 +86,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             router.push('/');
         }
         catch (e) {
-            console.log(e);
             toast.error("退出失败，请重试");
         }
     }
@@ -103,7 +100,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             return res;
         }
         catch (e) {
-            console.log(e);
             toast.error("登录失败，请重试");
             return {
                 // @ts-expect-error message is null
