@@ -1,6 +1,6 @@
 'use client';
 import { useActionState, useEffect, ReactNode } from 'react';
-import { useFormStatus, } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { Loader2 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/context/AuthContext';
 
 const initialState = {
-    message: null
+    message: null,
 };
 
 function SubmitButton({ label }: { label: string }) {
@@ -30,7 +30,7 @@ const Form = ({
     description,
     submitLabel,
     onSuccess,
-    isLogin = false
+    isLogin = false,
 }: {
     title: string,
     description: ReactNode,

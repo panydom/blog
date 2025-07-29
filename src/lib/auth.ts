@@ -31,7 +31,7 @@ export async function createAccount(prevState: object, formData: FormData) {
         }
         return {
             message: "Register Success",
-            success: true
+            success: true,
         };
     }
     catch (e) {
@@ -41,7 +41,7 @@ export async function createAccount(prevState: object, formData: FormData) {
         }
         return {
             // @ts-expect-error message is null
-            message: e?.message || 'Unknow Error'
+            message: e?.message || 'Unknow Error',
         };
     }
 }
@@ -64,7 +64,7 @@ export async function SignIn(formData: FormData) {
         }
         return {
             message: 'Login Success',
-            success: true
+            success: true,
         };
     }
     catch (e) {

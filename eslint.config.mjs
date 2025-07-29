@@ -13,7 +13,14 @@ const eslintConfig = [
     ...compat.extends("next/core-web-vitals", "next/typescript"),
     {
         rules: {
-            "semi": ["error", "always"]
+            "semi": ["error", "always"],
+            "comma-dangle": ["error", {
+                'arrays': 'always-multiline',
+                'objects': 'always-multiline',
+                'imports': 'always-multiline',
+                'exports': 'always-multiline',
+                'functions': 'never',
+            }]
         }
     }
 ];

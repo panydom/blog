@@ -16,13 +16,13 @@ const DataTable = <TData, TValue>({ columns, data, fixed, colgroup }: DataTableP
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel()
+        getCoreRowModel: getCoreRowModel(),
     });
 
     return (
         <div className='rounded-md border'>
             <Table className={cls({
-                'table-fixed': fixed
+                'table-fixed': fixed,
             })}>
                 {colgroup}
                 <TableHeader>

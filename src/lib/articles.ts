@@ -3,7 +3,7 @@ import { createClientSupabaseClient } from './supabase';
 /**
  * https://supabase.com/docs/reference/javascript/select
  */
-export async function getIndexPageData(page: number, size: number = 10,) {
+export async function getIndexPageData(page: number, size: number = 10) {
     const supabase = await createClientSupabaseClient();
     const { data, error, count } = await supabase
         .from('articles')
@@ -12,7 +12,7 @@ export async function getIndexPageData(page: number, size: number = 10,) {
         .range((page - 1) * size, page * size - 1);
 
     return {
-        data, count: count || 0, error
+        data, count: count || 0, error,
     };
 }
 
@@ -92,6 +92,6 @@ export async function getAllArticles(page: number, size: number = 10) {
         .range((page - 1) * size, page * size - 1);
 
     return {
-        data, count: count || 0, error
+        data, count: count || 0, error,
     };
 }

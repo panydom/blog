@@ -18,6 +18,7 @@ const AdminBlogPage = async ({ searchParams }: { searchParams: Promise<{ page: s
                     <col className="w-12" />
                     <col className="w-40" />
                     <col className="w-40" />
+                    <col className="w-12" />
                 </colgroup>
             )} />
         </>

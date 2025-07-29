@@ -12,12 +12,12 @@ export const createClientSupabaseClient = async () => {
         auth: {
             autoRefreshToken: true,
             persistSession: true,
-            storageKey: "supebase.auth.token"
+            storageKey: "supebase.auth.token",
         },
         global: {
             headers: {
-                "X-Client-Marker": "zhu-yu-mo"
-            }
+                "X-Client-Marker": "zhu-yu-mo",
+            },
         },
     });
 };
@@ -39,6 +39,6 @@ export const createServerSupabaseClient = async () => {
             remove(name: string, options: object) {
                 cookieStore.delete({ name, ...options });
             },
-        }
+        },
     });
 };

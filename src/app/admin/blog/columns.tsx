@@ -7,6 +7,19 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, View, Pencil, Trash } from "lucide-react";
+import DeleteDialog from './delete-dialog';
+import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 
 export const columns: ColumnDef<PostType>[] = [
@@ -25,7 +38,7 @@ export const columns: ColumnDef<PostType>[] = [
                 <TooltipContent>
                     {info.getValue() as string}
                 </TooltipContent>
-            </Tooltip>)
+            </Tooltip>),
     },
     {
         accessorKey: "view_count",
@@ -42,11 +55,56 @@ export const columns: ColumnDef<PostType>[] = [
     {
         accessorKey: "created_at",
         header: "创建时间",
-        cell: info => dayjs(info.getValue() as string).format('YYYY-MM-DD HH:mm:ss')
+        cell: info => dayjs(info.getValue() as string).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
         accessorKey: "updated_at",
         header: "更新时间",
-        cell: info => dayjs(info.getValue() as string).format('YYYY-MM-DD HH:mm:ss')
+        cell: info => dayjs(info.getValue() as string).format('YYYY-MM-DD HH:mm:ss'),
+    },
+    {
+        id: "actions",
+        header: "操作",
+        cell: ({ row }) => {
+            async function handleDelete() {
+                console.log(row.original.id);
+                await new Promise(res => setTimeout(res, 10000));
+                // deletePost(row.original.id);
+            }
+
+            return (
+                <DeleteDialog
+                    title="是否确认删除该博客"
+                    description='重要提醒：删除后将无法恢复'
+                    onConfirm={handleDelete}
+                >
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">打开菜单</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel className='px-2 py-1.5 text-sm font-semibold'>操作</DropdownMenuLabel>
+                            <Link href={"/article/" + row.original.id} target='_blank'>
+                                <DropdownMenuItem>
+                                    <View ></View><span>查看详情</span>
+                                </DropdownMenuItem>
+                            </Link>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <Pencil></Pencil><span>编辑博客</span>
+                            </DropdownMenuItem>
+                            <AlertDialogTrigger asChild>
+                                <DropdownMenuItem className='text-red-500 hover:text-red-500'>
+                                    <Trash style={{ color: "currentColor" }}></Trash><span>删除博客</span>
+                                </DropdownMenuItem>
+                            </AlertDialogTrigger>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </DeleteDialog>
+            );
+        },
     },
 ];

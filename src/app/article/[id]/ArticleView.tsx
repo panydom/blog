@@ -9,7 +9,7 @@ const ArticleView = ({ id, children }: { id: number, children: React.ReactNode }
         }
 
         fetch(`/api/article/${id}/view`, {
-            method: "POST"
+            method: "POST",
         }).catch(error => {
             console.error(error);
         });

@@ -103,7 +103,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             toast.error("登录失败，请重试");
             return {
                 // @ts-expect-error message is null
-                message: e?.message
+                message: e?.message,
             };
         }
     }

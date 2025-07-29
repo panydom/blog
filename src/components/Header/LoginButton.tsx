@@ -8,7 +8,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-    DropdownMenuShortcut
+    DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 import { LogOut, SquareChevronRight } from "lucide-react";
 
@@ -28,7 +28,7 @@ const LoginButton = () => {
         <DropdownMenu>
             <DropdownMenuTrigger className="outline-0">{user.email}</DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>账号设置</DropdownMenuLabel>
+                <DropdownMenuLabel className="px-2 py-1.5 text-sm font-semibold">账号设置</DropdownMenuLabel>
                 <DropdownMenuSeparator></DropdownMenuSeparator>
                 {
                     isAdmin && (
