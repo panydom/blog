@@ -1,4 +1,5 @@
 import { createClientSupabaseClient } from './supabase';
+import { getCurrentUser } from '@/lib/auth';
 
 /**
  * https://supabase.com/docs/reference/javascript/select
@@ -94,4 +95,18 @@ export async function getAllArticles(page: number, size: number = 10) {
     return {
         data, count: count || 0, error,
     };
+}
+
+export async function createArticle(article: { title: string; content: string }) {
+    const { data: { user }, isAdmin } = await getCurrentUser();
+    if (!user || !isAdmin) {
+        throw new Error("无权限");
+    }
+    const supabase = await createClientSupabaseClient();
+    const { data, error } = await supabase
+        .from('articles')
+        .insert(article)
+        .select("id")
+        .single();
+    return { data, error };
 }

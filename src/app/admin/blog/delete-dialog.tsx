@@ -2,17 +2,15 @@
 import { useState } from 'react';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    // AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { LoaderCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
+import ButtonWithLoading from '@/components/common/ButtonWithLoading';
 
 const DeleteDialog = ({
     children,
@@ -49,9 +47,7 @@ const DeleteDialog = ({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>取消</AlertDialogCancel>
-                    <Button onClick={handleConfirm} disabled={loading}>
-                        {loading ? <LoaderCircle className="animate-spin" /> : null}确认
-                    </Button>
+                    <ButtonWithLoading onClick={handleConfirm} loading={loading}>确认</ButtonWithLoading>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
