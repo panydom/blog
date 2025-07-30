@@ -1,3 +1,4 @@
+import { transliterate, slugify } from "transliteration";
 import { createClientSupabaseClient } from './supabase';
 import { getCurrentUser } from '@/lib/auth';
 
@@ -21,14 +22,16 @@ export type PostData = ResolvedReturnType<typeof getIndexPageData>['data']
 
 export type PostType = NonNullable<PostData>[0]
 
-export async function getPostDetail(id: number) {
+export async function getPostDetail(identifier: number | string) {
     // Use .single() to fetch a single record. It's more idiomatic and efficient.
     // It will return an error if no record is found or if multiple are found.
     const supabase = await createClientSupabaseClient();
+    // Check if the identifier is a number (ID) or string (slug)
+    const isId = typeof identifier === 'number' || !isNaN(Number(identifier));
     const { data, error } = await supabase
         .from('articles')
         .select("*")
-        .eq('id', id)
+        .eq(isId ? 'id' : 'slug', identifier)
         .single();
 
     return { data, error };
@@ -55,7 +58,6 @@ export async function incrementViewCount(id: number) {
     const { error } = await supabase.rpc('increment_view_count', {
         article_id: id,
     });
-
     if (error) {
         console.error('Error incrementing view count:', error);
     }
@@ -105,8 +107,25 @@ export async function createArticle(article: { title: string; content: string })
     const supabase = await createClientSupabaseClient();
     const { data, error } = await supabase
         .from('articles')
-        .insert(article)
+        .insert({
+            ...article,
+            slug: slugify(article.title),
+        })
         .select("id")
         .single();
     return { data, error };
+}
+
+
+export async function deleteArticle(id: string) {
+    const { data: { user }, isAdmin } = await getCurrentUser();
+    if (!user || !isAdmin) {
+        throw new Error("无权限");
+    }
+    const supabase = await createClientSupabaseClient();
+    const { error } = await supabase
+        .from('articles')
+        .delete()
+        .eq('id', parseInt(id, 10));
+    return { error };
 }

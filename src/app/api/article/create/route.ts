@@ -8,17 +8,17 @@ export async function POST(request: Request) {
         if (error) {
             throw new Error(error.message);
         }
-        return new NextResponse(JSON.stringify({
+        return NextResponse.json({
             data,
             message: "创建成功",
             success: true,
-        }), { status: 200 });
+        }, { status: 200 });
     }
     catch (e: unknown) {
-        return new NextResponse(JSON.stringify({
+        return NextResponse.json({
             //@ts-expect-error empty error
             message: "创建失败:" + e?.message,
             success: false,
-        }), { status: 500 });
+        }, { status: 500 });
     }
 }

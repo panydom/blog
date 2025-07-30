@@ -89,6 +89,7 @@ const CreateForm = () => {
                 <Textarea
                     id="content"
                     name="content"
+                    className='h-64'
                     placeholder='请输入内容'
                     required
                     value={content}

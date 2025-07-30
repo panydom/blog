@@ -20,7 +20,7 @@ import {
 import { MoreHorizontal, View, Pencil, Trash } from "lucide-react";
 import DeleteDialog from './delete-dialog';
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
-
+import { toast } from "sonner";
 
 export const columns: ColumnDef<PostType>[] = [
     {
@@ -67,9 +67,21 @@ export const columns: ColumnDef<PostType>[] = [
         header: "操作",
         cell: ({ row }) => {
             async function handleDelete() {
-                console.log(row.original.id);
-                await new Promise(res => setTimeout(res, 10000));
-                // deletePost(row.original.id);
+                try {
+                    const response = await fetch(`/api/article/${row.original.id}`, {
+                        method: "DELETE",
+                    });
+                    const res = await response.json();
+                    if (res.success) {
+                        toast.success(res.message);
+                        location.reload();
+                    } else {
+                        toast.error(res.message);
+                    }
+                }
+                catch {
+                    toast.error("删除失败");
+                }
             }
 
             return (

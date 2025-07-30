@@ -12,8 +12,8 @@ const menuItemStyle = 'cursor-pointer hover:bg-gray-100 dark:hover:bg-stone-900 
 
 const menuItems = [
     { href: '/admin', label: '总览', icon: Cable, exact: true },
-    { href: '/admin/blog', label: '博客管理', icon: Users, exact: false },
-    { href: '/admin/user', label: '用户管理', icon: Rss, exact: false },
+    { href: '/admin/blog', label: '博客管理', icon: Rss, exact: false },
+    { href: '/admin/user', label: '用户管理', icon: Users, exact: false },
     { href: '/admin/comment', label: '评论管理', icon: MessageSquareText, exact: false },
 ];
 
@@ -30,7 +30,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
             <div className='flex'>
                 {
                     !hide && (
-                        <div className="w-[200px] min-w-[200px] border rounded-lg py-1">
+                        <div className="w-[200px] min-w-[200px] h-fit border rounded-lg py-1">
                             {
                                 menuItems.map((item, index) => {
                                     return (

@@ -7,12 +7,12 @@
 export function getQueryParam(paramName?: string, url: string = window.location.href): string | null | Record<string, string> {
   try {
     const searchParams = new URL(url).searchParams;
-    
+
     if (paramName) {
       // 返回指定参数的值
       return searchParams.get(paramName);
     }
-    
+
     // 返回所有参数的键值对
     const params: Record<string, string> = {};
     searchParams.forEach((value, key) => {
@@ -36,11 +36,11 @@ export function getHashParam(paramName?: string, hash: string = window.location.
     // 移除#号并获取hash部分
     const hashPart = hash.split('?')[1] || '';
     const searchParams = new URLSearchParams(hashPart);
-    
+
     if (paramName) {
       return searchParams.get(paramName);
     }
-    
+
     const params: Record<string, string> = {};
     searchParams.forEach((value, key) => {
       params[key] = value;
@@ -59,18 +59,20 @@ export function getHashParam(paramName?: string, hash: string = window.location.
 export function getAllQueryParams(): Record<string, string> {
   const searchParams = new URLSearchParams(window.location.search);
   const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
-  
+
   const params: Record<string, string> = {};
-  
+
   // 添加search部分的参数
   searchParams.forEach((value, key) => {
     params[key] = value;
   });
-  
+
   // 添加hash部分的参数（会覆盖search中的同名参数）
   hashParams.forEach((value, key) => {
     params[key] = value;
   });
-  
+
   return params;
 }
+
+export const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());

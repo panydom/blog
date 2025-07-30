@@ -5,7 +5,7 @@ import LoginButton from "./LoginButton";
 
 const PageHeader = () => {
     return (
-        <div className={`h-16 px-3 bg-background sticky top-0 border-b border-b-gray-50`}>
+        <div className={`h-16 px-3 bg-background sticky top-0 border-b border-b-gray-50 z-10`}>
             <div className={`w-[1080px] mx-auto flex`}>
                 <div className="leading-16 text-2xl flex-1">
                     <Bird className='inline-block -mt-[10px]' size={36}></Bird>

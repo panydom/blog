@@ -14,7 +14,6 @@ const ArticleView = ({ id, children }: { id: number, children: React.ReactNode }
             console.error(error);
         });
     }, [id]);
-
     return (
         <>{children}</>
     );
