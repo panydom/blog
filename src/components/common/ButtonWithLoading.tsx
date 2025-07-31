@@ -1,7 +1,7 @@
 
-import { ReactNode } from 'react';
-import { Button } from '@/components/ui/button';
-import { LoaderCircle } from 'lucide-react';
+import { ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import { LoaderCircle } from "lucide-react";
 
 const ButtonWithLoading = ({
     children,

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Separator } from '@/components/ui/separator';
-import LoginGithub from './login-github';
-import Form from '../_components/Form';
-import { useLogined } from '@/context/AuthContext';
+import { Link } from "react-transition-progress/next";
+import { Separator } from "@/components/ui/separator";
+import LoginGithub from "./login-github";
+import Form from "../_components/Form";
+import { useLogined } from "@/context/AuthContext";
 
 const Login = () => {
     useLogined();

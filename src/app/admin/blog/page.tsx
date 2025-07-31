@@ -1,19 +1,21 @@
+import { Suspense } from "react";
 import DataTable from "@/components/data-table";
-import { columns } from './columns';
-import { getAllArticles } from '@/lib/articles';
+import { columns } from "./columns";
+import { getAllArticles } from "@/lib/articles";
 import { Button } from "@/components/ui/button";
-import Link from 'next/link';
-
-import { type Metadata } from 'next';
+import { Link } from "react-transition-progress/next";
+import { Pagination } from "@/components/common/Pagination";
+import { type Metadata } from "next";
 export const metadata: Metadata = {
     title: "博客管理",
     description: "博客管理",
 };
 
+const size = 10;
 
 const AdminBlogPage = async ({ searchParams }: { searchParams: Promise<{ page: string }> }) => {
-    const page = (await searchParams)?.page || 1;
-    const { data } = await getAllArticles(Number(page), 10);
+    const page = Number((await searchParams)?.page) || 1;
+    const { data, count } = await getAllArticles(page, size);
 
     return (
         <>
@@ -35,6 +37,9 @@ const AdminBlogPage = async ({ searchParams }: { searchParams: Promise<{ page: s
                     <col className="w-12" />
                 </colgroup>
             )} />
+            <Suspense fallback={<></>}>
+                <Pagination page={page} size={size} count={count}></Pagination>
+            </Suspense>
         </>
     );
 };

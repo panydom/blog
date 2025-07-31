@@ -20,7 +20,7 @@ export function getQueryParam(paramName?: string, url: string = window.location.
     });
     return params;
   } catch (error) {
-    console.error('Error parsing URL:', error);
+    console.error("Error parsing URL:", error);
     return paramName ? null : {};
   }
 }
@@ -34,7 +34,7 @@ export function getQueryParam(paramName?: string, url: string = window.location.
 export function getHashParam(paramName?: string, hash: string = window.location.hash): string | null | Record<string, string> {
   try {
     // 移除#号并获取hash部分
-    const hashPart = hash.split('?')[1] || '';
+    const hashPart = hash.split("?")[1] || "";
     const searchParams = new URLSearchParams(hashPart);
 
     if (paramName) {
@@ -47,7 +47,7 @@ export function getHashParam(paramName?: string, hash: string = window.location.
     });
     return params;
   } catch (error) {
-    console.error('Error parsing hash parameters:', error);
+    console.error("Error parsing hash parameters:", error);
     return paramName ? null : {};
   }
 }
@@ -58,7 +58,7 @@ export function getHashParam(paramName?: string, hash: string = window.location.
  */
 export function getAllQueryParams(): Record<string, string> {
   const searchParams = new URLSearchParams(window.location.search);
-  const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
+  const hashParams = new URLSearchParams(window.location.hash.split("?")[1] || "");
 
   const params: Record<string, string> = {};
 

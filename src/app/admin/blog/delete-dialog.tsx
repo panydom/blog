@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -9,8 +9,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { X } from 'lucide-react';
-import ButtonWithLoading from '@/components/common/ButtonWithLoading';
+import { X } from "lucide-react";
+import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 
 const DeleteDialog = ({
     children,

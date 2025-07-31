@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { deleteArticle } from '@/lib/articles';
+import { NextResponse } from "next/server";
+import { deleteArticle } from "@/lib/articles";
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -17,7 +17,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
         }
         return NextResponse.json({
             success: true,
-            message: '',
+            message: "",
         }, { status: 200 });
     }
     catch (e) {

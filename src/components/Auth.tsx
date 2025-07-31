@@ -1,8 +1,8 @@
-'use client';
-import { useEffect, type ReactNode } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { Loader2, Ban } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useEffect, type ReactNode } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { Loader2, Ban } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface AuthProps {
     requireLogin?: boolean;
@@ -19,16 +19,16 @@ const AuthComponent = ({ requireAdmin = false, requireLogin = false, children }:
             return;
         }
         if (requireLogin && !user) {
-            router.push('/login?redirect=' + encodeURIComponent(window.location.href));
+            router.push("/login?redirect=" + encodeURIComponent(window.location.href));
             return;
         }
         if (requireAdmin && (!user || !isAdmin)) {
             if (!user) {
-                router.push('/login?redirect=' + encodeURIComponent(window.location.href));
+                router.push("/login?redirect=" + encodeURIComponent(window.location.href));
             }
             else {
                 // 已登录，但是权限不够
-                router.push('/');
+                router.push("/");
             }
             return;
         }

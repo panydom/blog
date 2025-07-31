@@ -1,14 +1,14 @@
-'use client';
-import { useActionState, useEffect, ReactNode } from 'react';
-import { useFormStatus } from 'react-dom';
+"use client";
+import { useActionState, useEffect, ReactNode } from "react";
+import { useFormStatus } from "react-dom";
 import { Loader2 } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { createAccount } from '@/lib/auth';
-import { toast } from 'sonner';
-import { useAuth } from '@/context/AuthContext';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { createAccount } from "@/lib/auth";
+import { toast } from "sonner";
+import { useAuth } from "@/context/AuthContext";
 
 const initialState = {
     message: null,

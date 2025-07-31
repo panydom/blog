@@ -1,6 +1,6 @@
-'use client';
+"use client";
 import { Button } from "@/components/ui/button";
-import Link from 'next/link';
+import { Link } from "react-transition-progress/next";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,7 +13,7 @@ import {
 import { LogOut, SquareChevronRight } from "lucide-react";
 
 
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from "@/context/AuthContext";
 
 const LoginButton = () => {
     const { user, isAdmin, logout } = useAuth();

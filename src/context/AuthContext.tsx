@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { createContext, ReactNode, useEffect, useState, useContext } from 'react';
-import { getCurrentUser, SignOut, SignIn, checkSessionAndRefresh } from '@/lib/auth';
-import { type User } from '@/lib/auth';
-import { toast } from 'sonner';
-import { redirect, useRouter, useSearchParams } from 'next/navigation';
+import { createContext, ReactNode, useEffect, useState, useContext } from "react";
+import { getCurrentUser, SignOut, SignIn, checkSessionAndRefresh } from "@/lib/auth";
+import { type User } from "@/lib/auth";
+import { toast } from "sonner";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 
 type Auth = {
     user: User;
@@ -65,7 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!session) {
             setUser(null);
             setIsAdmin(false);
-            router.push('/login');
+            router.push("/login");
         }
     };
 
@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
             await SignOut();
             updateUserInfo();
-            router.push('/');
+            router.push("/");
         }
         catch (e) {
             toast.error("退出失败，请重试");
@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const res = await SignIn(formData);
             if (res.success) {
                 updateUserInfo();
-                router.push(params.get('redirect') || '/');
+                router.push(params.get("redirect") || "/");
             }
             return res;
         }
@@ -125,7 +125,7 @@ export const useLogined = () => {
     const params = useSearchParams();
     useEffect(() => {
         if (user) {
-            redirect(params.get('redirect') || '/');
+            redirect(params.get("redirect") || "/");
         }
     }, [user]);
 };

@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { createArticle } from '@/lib/articles';
+import { NextResponse } from "next/server";
+import { createArticle } from "@/lib/articles";
 
 export async function POST(request: Request) {
     try {

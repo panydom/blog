@@ -1,13 +1,13 @@
-'use client';
-import dayjs from 'dayjs';
+"use client";
+import dayjs from "dayjs";
 import { ColumnDef } from "@tanstack/react-table";
-import type { PostType } from '@/lib/articles';
+import type { PostType } from "@/lib/articles";
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import Link from 'next/link';
+import { Link } from "react-transition-progress/next";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -18,7 +18,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, View, Pencil, Trash } from "lucide-react";
-import DeleteDialog from './delete-dialog';
+import DeleteDialog from "./delete-dialog";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 
@@ -55,12 +55,12 @@ export const columns: ColumnDef<PostType>[] = [
     {
         accessorKey: "created_at",
         header: "创建时间",
-        cell: info => dayjs(info.getValue() as string).format('YYYY-MM-DD HH:mm:ss'),
+        cell: info => dayjs(info.getValue() as string).format("YYYY-MM-DD HH:mm:ss"),
     },
     {
         accessorKey: "updated_at",
         header: "更新时间",
-        cell: info => dayjs(info.getValue() as string).format('YYYY-MM-DD HH:mm:ss'),
+        cell: info => dayjs(info.getValue() as string).format("YYYY-MM-DD HH:mm:ss"),
     },
     {
         id: "actions",
@@ -99,7 +99,7 @@ export const columns: ColumnDef<PostType>[] = [
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel className='px-2 py-1.5 text-sm font-semibold'>操作</DropdownMenuLabel>
-                            <Link href={"/article/" + row.original.id} target='_blank'>
+                            <Link href={"/article/" + (row.original.slug || row.original.id)} target='_blank'>
                                 <DropdownMenuItem>
                                     <View ></View><span>查看详情</span>
                                 </DropdownMenuItem>

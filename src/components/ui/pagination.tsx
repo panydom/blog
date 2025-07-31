@@ -1,5 +1,5 @@
 import * as React from "react";
-import Link from 'next/link';
+import { Link } from "react-transition-progress/next";
 import {
     ChevronLeftIcon,
     ChevronRightIcon,
@@ -68,7 +68,7 @@ function PaginationLink({
 
 function PaginationPrevious({
     className,
-    label = 'Previous',
+    label = "Previous",
     ...props
 }: React.ComponentProps<typeof PaginationLink> & { label?: string }) {
     return (
@@ -86,7 +86,7 @@ function PaginationPrevious({
 
 function PaginationNext({
     className,
-    label = 'Next',
+    label = "Next",
     ...props
 }: React.ComponentProps<typeof PaginationLink> & { label?: string }) {
     return (

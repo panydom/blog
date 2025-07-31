@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { incrementViewCount } from '@/lib/articles';
+import { NextResponse } from "next/server";
+import { incrementViewCount } from "@/lib/articles";
 
 /**
  * @swagger
@@ -34,7 +34,7 @@ export async function POST(
     const id = parseInt(_id, 10);
 
     if (isNaN(id)) {
-        return NextResponse.json({ error: 'Invalid article ID' }, { status: 400 });
+        return NextResponse.json({ error: "Invalid article ID" }, { status: 400 });
     }
 
     // We don't need to await this. Let it run in the background.
@@ -42,6 +42,6 @@ export async function POST(
     // The incrementViewCount function logs any potential errors on the server side.
     incrementViewCount(id);
 
-    return NextResponse.json({ message: 'View count incremented' }, { status: 200 });
+    return NextResponse.json({ message: "View count incremented" }, { status: 200 });
 }
 

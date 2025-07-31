@@ -1,6 +1,6 @@
-'use server';
-import { z } from 'zod';
-import { createClientSupabaseClient, createServerSupabaseClient } from './supabase';
+"use server";
+import { z } from "zod";
+import { createClientSupabaseClient, createServerSupabaseClient } from "./supabase";
 // import { cookies } from 'next/headers';
 // import {NextResponse} from 'next/server'
 
@@ -10,7 +10,7 @@ export async function getCurrentUser() {
     return { data, error, isAdmin: data.user?.email === process.env.ADMIN_EMAIL };
 }
 
-export type User = ResolvedReturnType<typeof getCurrentUser>['data']['user'];
+export type User = ResolvedReturnType<typeof getCurrentUser>["data"]["user"];
 
 export async function createAccount(prevState: object, formData: FormData) {
     try {
@@ -41,7 +41,7 @@ export async function createAccount(prevState: object, formData: FormData) {
         }
         return {
             // @ts-expect-error message is null
-            message: e?.message || 'Unknow Error',
+            message: e?.message || "Unknow Error",
         };
     }
 }
@@ -49,11 +49,11 @@ export async function createAccount(prevState: object, formData: FormData) {
 export async function SignIn(formData: FormData) {
     try {
         const supabase = await createServerSupabaseClient();
-        const email = formData.get('email') as string;
-        const password = formData.get('password') as string;
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
 
         if (!email || !password) {
-            return { message: 'Email and password are required.', success: false };
+            return { message: "Email and password are required.", success: false };
         }
         const { error } = await supabase.auth.signInWithPassword({
             email,
@@ -63,20 +63,20 @@ export async function SignIn(formData: FormData) {
             throw error;
         }
         return {
-            message: 'Login Success',
+            message: "Login Success",
             success: true,
         };
     }
     catch (e) {
         // @ts-expect-error message is null
-        return { message: e?.message || 'Unknow Error' };
+        return { message: e?.message || "Unknow Error" };
     }
 
 }
 
 export async function SignOut() {
     const supabase = await createServerSupabaseClient();
-    const { error } = await supabase.auth.signOut({ scope: 'local' });
+    const { error } = await supabase.auth.signOut({ scope: "local" });
 
     if (error) {
         throw error;

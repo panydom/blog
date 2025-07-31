@@ -1,6 +1,7 @@
-import Link from 'next/link';
-import { Bird } from 'lucide-react';
-import ThemeToggle from './ThemeToggle';
+import { Link } from "react-transition-progress/next";
+import NextLink from "next/link";
+import { Bird } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 import LoginButton from "./LoginButton";
 
 const PageHeader = () => {
@@ -13,8 +14,8 @@ const PageHeader = () => {
                     <span className="ml-2 text-sm self-end text-neutral-700">琴与孜然烤肉</span>
                 </div>
                 <div className={`leading-16 flex items-center gap-6`}>
-                    <Link href="/" target='__blank'>首页</Link>
-                    <Link href="https://github.com/panydom/blog" target='__blank'>Github</Link>
+                    <Link href="/">首页</Link>
+                    <NextLink href="https://github.com/panydom/blog" target='__blank'>Github</NextLink>
                     <LoginButton></LoginButton>
                     <ThemeToggle></ThemeToggle>
                 </div>

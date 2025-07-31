@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useMemo } from 'react';
-import { Sun, Moon, SunMoon } from 'lucide-react';
-import { Button } from '../ui/button';
-import { useTheme } from 'next-themes';
+import { useMemo } from "react";
+import { Sun, Moon, SunMoon } from "lucide-react";
+import { Button } from "../ui/button";
+import { useTheme } from "next-themes";
 
 const ThemeToggle = () => {
     const { theme, setTheme, themes } = useTheme();
     const Icon = useMemo(() => {
-        if (theme === 'light') {
+        if (theme === "light") {
             return Sun;
         }
-        else if (theme === 'dark') {
+        else if (theme === "dark") {
             return Moon;
         }
         return SunMoon;

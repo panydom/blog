@@ -1,6 +1,6 @@
-import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardHeader, CardDescription, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
 const Person = ({ count }: { count: number }) => {
     return (

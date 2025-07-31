@@ -1,10 +1,10 @@
 
 import { Suspense } from "react";
-import { Eye } from 'lucide-react';
+import { Eye } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "react-transition-progress/next";
 import { Pagination, type PaginationProps } from "@/components/common/Pagination";
-import type { PostData } from '@/lib/articles';
+import type { PostData } from "@/lib/articles";
 
 interface PostsProps extends PaginationProps {
     data: PostData;
@@ -21,7 +21,7 @@ const Posts = ({ data, count, page, size }: PostsProps) => {
                     return (
                         <div key={article.id} className="flex shadow-sm border p-4 rounded-2xl transform hover:-translate-y-1 transition-all duration-200 not-first:mt-6">
                             <div className="w-36 h-36 min-w-36 relative rounded-2xl overflow-hidden" >
-                                <Image src="/blog.png" alt={article.title + "的图片"} style={{ objectFit: 'cover' }} fill></Image>
+                                <Image src="/blog.png" alt={article.title + "的图片"} style={{ objectFit: "cover" }} fill></Image>
                             </div>
                             <div className="ml-4">
                                 <div className="line-clamp-2 overflow-hidden font-bold text-lg cursor-pointer">

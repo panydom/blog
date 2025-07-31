@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from "react-transition-progress/next";
 const Footer = () => {
     const currentYear = new Date().getFullYear();
     return (

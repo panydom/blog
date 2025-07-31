@@ -1,10 +1,10 @@
-import { getPostDetail, getRecentArticles } from '@/lib/articles';
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import dayjs from 'dayjs';
-import { CalendarDays, CalendarRange, Eye, Clock3 } from 'lucide-react';
+import { getPostDetail, getRecentArticles } from "@/lib/articles";
+import { notFound } from "next/navigation";
+import { Link } from "react-transition-progress/next";
+import dayjs from "dayjs";
+import { CalendarDays, CalendarRange, Eye, Clock3 } from "lucide-react";
 
-import ArticleView from './ArticleView';
+import ArticleView from "./ArticleView";
 
 interface PostProps {
     params: Promise<{ id: number }>

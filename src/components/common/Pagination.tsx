@@ -17,13 +17,7 @@ export interface PaginationProps {
     count: number;
 }
 
-export interface PaginationComponentProps extends PaginationProps {
-    onChange?(page: number): void
-}
-
-type OnPageActive = (page: number) => void
-
-function getOtherPage(left: number, right: number, onChange: OnPageActive) {
+function getOtherPage(left: number, right: number) {
     const items = [];
     let hasEllipsis = false;
     for (let index = left; index < right + 1; index++) {
@@ -33,7 +27,7 @@ function getOtherPage(left: number, right: number, onChange: OnPageActive) {
             continue;
         }
         else {
-            item = isEdge ? <PaginationLink onClick={() => onChange(index)} href="#">{index}</PaginationLink> : <PaginationEllipsis />;
+            item = isEdge ? <PaginationLink href={"?page=" + index}>{index}</PaginationLink> : <PaginationEllipsis />;
             if (!isEdge) {
                 hasEllipsis = true;
             }
@@ -46,23 +40,21 @@ function getOtherPage(left: number, right: number, onChange: OnPageActive) {
     return items;
 }
 
-export function Pagination({ page, size, count }: PaginationComponentProps) {
+export function Pagination({ page, size, count }: PaginationProps) {
 
     const num = useMemo(() => Math.ceil(count / size), [count, size]);
-
-    const previous = useMemo(() => getOtherPage(1, page - 1, onPageActive), [page]);
-    const next = useMemo(() => getOtherPage(page + 1, num, onPageActive), [page, num]);
-
-    function onPageActive(page: number) {
-        console.log(page);
-
-    }
+    const previous = useMemo(() => getOtherPage(1, page - 1), [page]);
+    const next = useMemo(() => getOtherPage(page + 1, num), [page, num]);
 
     return (
         <ShadcnPagination className="mt-4">
             <PaginationContent>
-                <PaginationItem onClick={() => onPageActive(page - 1)}>
-                    <PaginationPrevious href="#" label="上一页" />
+                <PaginationItem>
+                    {
+                        page > 1 && (
+                            <PaginationPrevious href={"?page=" + Math.max(1, page - 1)} label="上一页" />
+                        )
+                    }
                 </PaginationItem>
                 {previous}
                 <PaginationItem>
@@ -71,8 +63,12 @@ export function Pagination({ page, size, count }: PaginationComponentProps) {
                     </PaginationLink>
                 </PaginationItem>
                 {next}
-                <PaginationItem onClick={() => onPageActive(page + 1)}>
-                    <PaginationNext href="#" label="下一页" />
+                <PaginationItem >
+                    {
+                        page < num && (
+                            <PaginationNext href={"?page=" + Math.min((page + 1), num)} label="下一页" />
+                        )
+                    }
                 </PaginationItem>
             </PaginationContent>
         </ShadcnPagination>

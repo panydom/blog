@@ -1,8 +1,8 @@
-'use client';
-import { ReactNode } from 'react';
-import cls from 'classnames';
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+"use client";
+import { ReactNode } from "react";
+import cls from "classnames";
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -22,7 +22,7 @@ const DataTable = <TData, TValue>({ columns, data, fixed, colgroup }: DataTableP
     return (
         <div className='rounded-md border'>
             <Table className={cls({
-                'table-fixed': fixed,
+                "table-fixed": fixed,
             })}>
                 {colgroup}
                 <TableHeader>
@@ -50,7 +50,7 @@ const DataTable = <TData, TValue>({ columns, data, fixed, colgroup }: DataTableP
                     {
                         table.getRowModel().rows?.length
                             ? table.getRowModel().rows.map(row => (
-                                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                                     {
                                         row.getVisibleCells().map(cell => (
                                             <TableCell key={cell.id} >

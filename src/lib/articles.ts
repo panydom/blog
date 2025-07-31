@@ -1,6 +1,6 @@
 import { transliterate, slugify } from "transliteration";
-import { createClientSupabaseClient } from './supabase';
-import { getCurrentUser } from '@/lib/auth';
+import { createClientSupabaseClient } from "./supabase";
+import { getCurrentUser } from "@/lib/auth";
 
 /**
  * https://supabase.com/docs/reference/javascript/select
@@ -8,9 +8,9 @@ import { getCurrentUser } from '@/lib/auth';
 export async function getIndexPageData(page: number, size: number = 10) {
     const supabase = await createClientSupabaseClient();
     const { data, error, count } = await supabase
-        .from('articles')
+        .from("articles")
         .select("*", { count: "exact" })
-        .order('updated_at', { ascending: false })
+        .order("updated_at", { ascending: false })
         .range((page - 1) * size, page * size - 1);
 
     return {
@@ -18,7 +18,7 @@ export async function getIndexPageData(page: number, size: number = 10) {
     };
 }
 
-export type PostData = ResolvedReturnType<typeof getIndexPageData>['data']
+export type PostData = ResolvedReturnType<typeof getIndexPageData>["data"]
 
 export type PostType = NonNullable<PostData>[0]
 
@@ -27,11 +27,11 @@ export async function getPostDetail(identifier: number | string) {
     // It will return an error if no record is found or if multiple are found.
     const supabase = await createClientSupabaseClient();
     // Check if the identifier is a number (ID) or string (slug)
-    const isId = typeof identifier === 'number' || !isNaN(Number(identifier));
+    const isId = typeof identifier === "number" || !isNaN(Number(identifier));
     const { data, error } = await supabase
-        .from('articles')
+        .from("articles")
         .select("*")
-        .eq(isId ? 'id' : 'slug', identifier)
+        .eq(isId ? "id" : "slug", identifier)
         .single();
 
     return { data, error };
@@ -55,11 +55,11 @@ export async function incrementViewCount(id: number) {
     // This prevents race conditions.
     const supabase = await createClientSupabaseClient();
     // @ts-expect-error never
-    const { error } = await supabase.rpc('increment_view_count', {
+    const { error } = await supabase.rpc("increment_view_count", {
         article_id: id,
     });
     if (error) {
-        console.error('Error incrementing view count:', error);
+        console.error("Error incrementing view count:", error);
     }
     // This function primarily performs an action, so it doesn't need to return data.
     // The caller can check for the absence of an error if needed.
@@ -72,9 +72,9 @@ export async function incrementViewCount(id: number) {
 export async function getRecentArticles() {
     const supabase = await createClientSupabaseClient();
     const { data, error } = await supabase
-        .from('articles')
-        .select('id')
-        .order('updated_at', { ascending: false })
+        .from("articles")
+        .select("id")
+        .order("updated_at", { ascending: false })
         .limit(10);
 
     return { data, error };
@@ -89,9 +89,9 @@ export async function getRecentArticles() {
 export async function getAllArticles(page: number, size: number = 10) {
     const supabase = await createClientSupabaseClient();
     const { data, error, count } = await supabase
-        .from('articles')
-        .select('id, title, view_count, created_at, updated_at', { count: "exact" })
-        .order('updated_at', { ascending: false })
+        .from("articles")
+        .select("id, title, slug, view_count, created_at, updated_at", { count: "exact" })
+        .order("updated_at", { ascending: false })
         .range((page - 1) * size, page * size - 1);
 
     return {
@@ -106,12 +106,12 @@ export async function createArticle(article: { title: string; content: string })
     }
     const supabase = await createClientSupabaseClient();
     const { data, error } = await supabase
-        .from('articles')
+        .from("articles")
         .insert({
             ...article,
             slug: slugify(article.title),
         })
-        .select("id")
+        .select("id, slug")
         .single();
     return { data, error };
 }
@@ -124,8 +124,8 @@ export async function deleteArticle(id: string) {
     }
     const supabase = await createClientSupabaseClient();
     const { error } = await supabase
-        .from('articles')
+        .from("articles")
         .delete()
-        .eq('id', parseInt(id, 10));
+        .eq("id", parseInt(id, 10));
     return { error };
 }

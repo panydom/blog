@@ -1,7 +1,7 @@
-import { cookies } from 'next/headers';
-import { createClient } from '@supabase/supabase-js';
-import { createBrowserClient, createServerClient } from '@supabase/ssr';
-import type { Database } from '@/types/database';
+import { cookies } from "next/headers";
+import { createClient } from "@supabase/supabase-js";
+import { createBrowserClient, createServerClient } from "@supabase/ssr";
+import type { Database } from "@/types/database";
 
 
 const supabaseUrl = process.env.SUPABASE_URL!;

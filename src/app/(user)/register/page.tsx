@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import Form from '../_components/Form';
-import { useLogined } from '@/context/AuthContext';
+import { useState, useEffect } from "react";
+import { Link } from "react-transition-progress/next";
+import { redirect } from "next/navigation";
+import Form from "../_components/Form";
+import { useLogined } from "@/context/AuthContext";
 
 const RegisterPage = () => {
     useLogined();
