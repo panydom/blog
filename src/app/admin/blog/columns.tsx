@@ -8,6 +8,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link } from "react-transition-progress/next";
+import NextLink from "next/link";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -99,15 +100,17 @@ export const columns: ColumnDef<PostType>[] = [
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel className='px-2 py-1.5 text-sm font-semibold'>操作</DropdownMenuLabel>
-                            <Link href={"/article/" + (row.original.slug || row.original.id)} target='_blank'>
+                            <NextLink href={"/article/" + (row.original.slug || row.original.id)} target='_blank'>
                                 <DropdownMenuItem>
                                     <View ></View><span>查看详情</span>
                                 </DropdownMenuItem>
-                            </Link>
+                            </NextLink>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                <Pencil></Pencil><span>编辑博客</span>
-                            </DropdownMenuItem>
+                            <Link href={"/admin/blog/edit/" + (row.original.id)}>
+                                <DropdownMenuItem>
+                                    <Pencil></Pencil><span>编辑博客</span>
+                                </DropdownMenuItem>
+                            </Link>
                             <AlertDialogTrigger asChild>
                                 <DropdownMenuItem className='text-red-500 hover:text-red-500'>
                                     <Trash style={{ color: "currentColor" }}></Trash><span>删除博客</span>

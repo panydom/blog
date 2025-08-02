@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getPostDetail, getRecentArticles } from "@/lib/articles";
 import { notFound } from "next/navigation";
 import { Link } from "react-transition-progress/next";
@@ -5,6 +6,7 @@ import dayjs from "dayjs";
 import { CalendarDays, CalendarRange, Eye, Clock3 } from "lucide-react";
 
 import ArticleView from "./ArticleView";
+import ArticleContent from "./ArticleContent";
 
 interface PostProps {
     params: Promise<{ id: number }>
@@ -47,7 +49,11 @@ const Post = async ({ params }: PostProps) => {
                         预计阅读时长：{Math.max(1, Math.round((article.content?.length || 0) / 400))}分钟
                     </div>
                 </div>
-                <div className='text-neutral-800 dark:text-neutral-100 mt-6'>{article.content}</div>
+                <div className='text-neutral-800 dark:text-neutral-100 mt-6'>
+                    <Suspense fallback={<div>加载中...</div>}>
+                        <ArticleContent content={article.content || ""}></ArticleContent>
+                    </Suspense>
+                </div>
                 <div className='mt-10 flex justify-between text-neutral-500 dark:text-neutral-100 text-xs'>
                     <div className='flex items-center'>
                         <CalendarRange className='mr-2' size={14}></CalendarRange>

@@ -1,3 +1,5 @@
+import "md-editor-rt/lib/style.css";
+
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import "./globals.css";

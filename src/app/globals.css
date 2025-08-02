@@ -121,3 +121,7 @@
         @apply bg-background text-foreground;
     }
 }
+
+#article-content.md-editor-dark {
+    --md-bk-color: var(--background);
+}

@@ -9,18 +9,22 @@ import { useProgress } from "react-transition-progress";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 
+// https://imzbf.github.io/md-editor-rt/en-US/demo/
+import { MdEditor, type Themes } from "md-editor-rt";
+import { useTheme } from "next-themes";
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import ButtonWithLoading from "@/components/common/ButtonWithLoading";
 
 interface CreateResponse {
     id: number;
     slug: string;
+    isEdit?: boolean;
 }
 
-function CreateSuccess({ id, slug }: CreateResponse) {
+function CreateSuccess({ id, slug, isEdit }: CreateResponse) {
     const router = useRouter();
     const startProgress = useProgress();
     const [out, setOut] = useState(3);
@@ -51,7 +55,7 @@ function CreateSuccess({ id, slug }: CreateResponse) {
     return (
         <div className='flex w-fit mx-auto mt-32'>
             <PartyPopper className='mr-4'></PartyPopper>
-            创建成功！{out}秒后自动跳转到博客列表...
+            {isEdit ? "编辑" : "创建"}成功！{out}秒后自动跳转到博客列表...
             <NextLink
                 className='ml-4 text-blue-600 hover:text-blue-700'
                 href={`/article/${slug || id}`}
@@ -61,10 +65,18 @@ function CreateSuccess({ id, slug }: CreateResponse) {
     );
 }
 
+interface PostFormProps {
+    title?: string;
+    content?: string;
+    isEdit?: boolean;
+    id?: number;
+}
 
-const CreateForm = () => {
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+const CreateForm = (props: PostFormProps) => {
+    const { theme } = useTheme();
+    const editorTheme: Themes = theme === "dark" ? "dark" : "light";
+    const [title, setTitle] = useState(props.title || "");
+    const [content, setContent] = useState(props.content || "");
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useSetState({
         success: false,
@@ -78,8 +90,9 @@ const CreateForm = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const response = await fetch("/api/article/create", {
-                method: "POST",
+            const url = props.isEdit ? "/api/article/update/" + props.id : "/api/article/create";
+            const response = await fetch(url, {
+                method: props.isEdit ? "PUT" : "POST",
                 body: JSON.stringify({
                     title,
                     content,
@@ -103,7 +116,7 @@ const CreateForm = () => {
     }
 
     if (response.success) {
-        return <CreateSuccess id={response.data.id} slug={response.data.slug} />;
+        return <CreateSuccess id={response.data.id} slug={response.data.slug} isEdit={props.isEdit} />;
     }
     return (
         <form onSubmit={handleConfirm}>
@@ -121,7 +134,7 @@ const CreateForm = () => {
             </div>
             <div className='flex gap-2 mb-4'>
                 <Label htmlFor="content" className='w-20 h-9 leading-9'>内容</Label>
-                <Textarea
+                {/* <Textarea
                     id="content"
                     name="content"
                     className='h-64'
@@ -129,7 +142,8 @@ const CreateForm = () => {
                     required
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                />
+                /> */}
+                <MdEditor theme={editorTheme} value={content} onChange={(value: string) => setContent(value)} ></MdEditor>
             </div>
             <div className='flex gap-5 justify-end'>
                 <Button variant='outline' onClick={() => router.back()}>返回</Button>

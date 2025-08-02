@@ -99,6 +99,11 @@ export async function getAllArticles(page: number, size: number = 10) {
     };
 }
 
+/**
+ * 创建文章
+ * @param article 
+ * @returns 
+ */
 export async function createArticle(article: { title: string; content: string }) {
     const { data: { user }, isAdmin } = await getCurrentUser();
     if (!user || !isAdmin) {
@@ -116,7 +121,56 @@ export async function createArticle(article: { title: string; content: string })
     return { data, error };
 }
 
+/**
+ * 检查文章是否存在
+ * @param id 
+ * @returns 
+ */
+export async function articleExists(id: number) {
+    const supabase = await createClientSupabaseClient();
+    const { data, error } = await supabase
+        .from("articles")
+        .select("id")
+        .eq("id", id)
+        .maybeSingle();  // 如果没有找到记录返回 null 而不是报错
 
+    if (error) {
+        console.error("Error checking record:", error);
+        return false;
+    }
+
+    return data !== null;  // 如果找到记录返回 true，否则返回 false
+}
+
+/**
+ * 更新文章
+ * @param id 
+ * @param article 
+ * @returns 
+ */
+export async function updateArticle(id: number, article: { title: string; content: string }) {
+    const { data: { user }, isAdmin } = await getCurrentUser();
+    if (!user || !isAdmin) {
+        throw new Error("无权限");
+    }
+    const supabase = await createClientSupabaseClient();
+    const newSlug = slugify(article.title);
+    const { error } = await supabase
+        .from("articles")
+        .update({
+            ...article,
+            slug: newSlug,
+            updated_at: new Date().toISOString(),
+        })
+        .eq("id", id);
+    return { error, data: { slug: newSlug } };
+}
+
+/**
+ * 删除文章
+ * @param id 
+ * @returns 
+ */
 export async function deleteArticle(id: string) {
     const { data: { user }, isAdmin } = await getCurrentUser();
     if (!user || !isAdmin) {

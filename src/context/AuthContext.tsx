@@ -85,7 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             updateUserInfo();
             router.push("/");
         }
-        catch (e) {
+        catch {
             toast.error("退出失败，请重试");
         }
     }

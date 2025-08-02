@@ -1,21 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
+import { useMount } from "react-use";
 
 const ArticleView = ({ id, children }: { id: number, children: React.ReactNode }) => {
-    useEffect(() => {
+
+    useMount(() => {
         if (!id) {
             return;
         }
-
         fetch(`/api/article/${id}/view`, {
             method: "POST",
         }).catch(error => {
             console.error(error);
         });
-    }, [id]);
+    });
+
     return (
-        <>{children}</>
+        <>
+            {children}
+        </>
     );
 };
 
