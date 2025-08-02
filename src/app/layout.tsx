@@ -27,7 +27,7 @@ export default function RootLayout({
         <html lang="zh-CN">
             <body className={`antialiased`}>
                 <ProgressBarProvider>
-                    <ProgressBar className="fixed h-1 shadow-lg shadow-blue-600/20 bg-blue-600 top-0 z-20" />
+                    <ProgressBar className="fixed h-1 shadow-lg shadow-blue-600/20 bg-blue-600 top-0 z-[11001]" />
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"

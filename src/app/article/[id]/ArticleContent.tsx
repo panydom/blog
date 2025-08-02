@@ -3,6 +3,8 @@ import { MdPreview, type Themes } from "md-editor-rt";
 import { useTheme } from "next-themes";
 import { useMount } from "react-use";
 
+// previewTheme可选值：'default' | 'github' | 'vuepress' | 'mk-cute' | 'smart-blue' | 'cyanosis'
+
 const ArticleContent = ({ content }: { content: string }) => {
     const { theme } = useTheme();
     const editorTheme: Themes = theme === "dark" ? "dark" : "light";
@@ -21,7 +23,7 @@ const ArticleContent = ({ content }: { content: string }) => {
         });
     });
     return (
-        <MdPreview id='article-content' value={content} theme={editorTheme}></MdPreview>
+        <MdPreview id='article-content' value={content} theme={editorTheme} previewTheme="github"></MdPreview>
     );
 };
 

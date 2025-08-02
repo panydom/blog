@@ -1,6 +1,7 @@
 import { transliterate, slugify } from "transliteration";
 import { createClientSupabaseClient } from "./supabase";
 import { getCurrentUser } from "@/lib/auth";
+import dayjs from "dayjs";
 
 /**
  * https://supabase.com/docs/reference/javascript/select
@@ -115,6 +116,8 @@ export async function createArticle(article: { title: string; content: string })
         .insert({
             ...article,
             slug: slugify(article.title),
+            updated_at: new Date().toISOString(),
+            created_at: new Date().toISOString(),
         })
         .select("id, slug")
         .single();

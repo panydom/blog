@@ -19,7 +19,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
             <div className={`flex-1`}>
                 <Posts data={data} page={page} size={size} count={count}></Posts>
             </div>
-            <div className={`w-80 sticky top-16 ml-6`}>
+            <div className={`w-80 min-w-80 sticky top-16 ml-6`}>
                 <Person count={count}></Person>
                 <div className={`mt-5`}>
                     {/* <Calendar ></Calendar> */}

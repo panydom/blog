@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { getPostDetail, getRecentArticles } from "@/lib/articles";
 import { notFound } from "next/navigation";
 import { Link } from "react-transition-progress/next";
-import dayjs from "dayjs";
+import { formatTime } from "@/lib/utils";
 import { CalendarDays, CalendarRange, Eye, Clock3 } from "lucide-react";
 
 import ArticleView from "./ArticleView";
@@ -38,7 +38,7 @@ const Post = async ({ params }: PostProps) => {
                 <div className='text-neutral-500 dark:text-neutral-100 mt-10 text-xs flex'>
                     <div className='flex items-center'>
                         <CalendarDays className='mr-2' size={14}></CalendarDays>
-                        最后更新时间：{dayjs(article.updated_at).format("YYYY-MM-DD HH:mm:ss")}
+                        最后更新时间：{formatTime(article.updated_at)}
                     </div>
                     <div className='ml-4 flex items-center'>
                         <Eye size={14} className="mr-2"></Eye>
@@ -57,7 +57,7 @@ const Post = async ({ params }: PostProps) => {
                 <div className='mt-10 flex justify-between text-neutral-500 dark:text-neutral-100 text-xs'>
                     <div className='flex items-center'>
                         <CalendarRange className='mr-2' size={14}></CalendarRange>
-                        创建于：{dayjs(article.created_at).format("YYYY-MM-DD HH:mm:ss")}
+                        创建于：{formatTime(article.created_at)}
                     </div>
                 </div>
             </div>

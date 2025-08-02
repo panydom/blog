@@ -1,5 +1,4 @@
 "use client";
-import dayjs from "dayjs";
 import { ColumnDef } from "@tanstack/react-table";
 import type { PostType } from "@/lib/articles";
 import {
@@ -22,6 +21,7 @@ import { MoreHorizontal, View, Pencil, Trash } from "lucide-react";
 import DeleteDialog from "./delete-dialog";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { formatTime } from "@/lib/utils";
 
 export const columns: ColumnDef<PostType>[] = [
     {
@@ -56,12 +56,12 @@ export const columns: ColumnDef<PostType>[] = [
     {
         accessorKey: "created_at",
         header: "创建时间",
-        cell: info => dayjs(info.getValue() as string).format("YYYY-MM-DD HH:mm:ss"),
+        cell: info => formatTime(info.getValue() as string),
     },
     {
         accessorKey: "updated_at",
         header: "更新时间",
-        cell: info => dayjs(info.getValue() as string).format("YYYY-MM-DD HH:mm:ss"),
+        cell: info => formatTime(info.getValue() as string),
     },
     {
         id: "actions",
