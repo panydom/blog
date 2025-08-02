@@ -4,7 +4,7 @@ import { type ReactNode, Fragment } from "react";
 import Auth from "@/components/Auth";
 import { Separator } from "@/components/ui/separator";
 import cls from "classnames";
-import { ArrowLeft, Cable, Users, Rss, MessageSquareText } from "lucide-react";
+import { ArrowLeft, Cable, Users, Rss, MessageSquareText, Tag } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "react-transition-progress/next";
 
@@ -15,6 +15,7 @@ const menuItems = [
     { href: "/admin", label: "总览", icon: Cable, exact: true },
     { href: "/admin/blog", label: "博客管理", icon: Rss, exact: false },
     { href: "/admin/user", label: "用户管理", icon: Users, exact: false },
+    { href: "/admin/tag", label: "标签管理", icon: Tag, exact: false },
     { href: "/admin/comment", label: "评论管理", icon: MessageSquareText, exact: false },
 ];
 

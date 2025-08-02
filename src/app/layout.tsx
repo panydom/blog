@@ -13,6 +13,7 @@ import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
 export const metadata: Metadata = {
     title: "竹与墨",
     description: "记录想法的点滴，汇聚成竹林",
+    keywords: "技术，想法，分享，博客",
     icons: {
         icon: "/favicon.ico",
     },

@@ -2,7 +2,7 @@ import { Card, CardHeader, CardDescription, CardContent } from "@/components/ui/
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
-const Person = ({ count }: { count: number }) => {
+const Person = ({ count, totalViews }: { count: number, totalViews: number }) => {
     return (
         <Card>
             <CardHeader className={`flex flex-col items-center justify-center`}>
@@ -23,7 +23,7 @@ const Person = ({ count }: { count: number }) => {
                     <Separator orientation="vertical" />
                     <div className={`flex flex-col justify-center items-center cursor-pointer`}>
                         <span className={`text-base font-semibold`}>浏览</span>
-                        <CardDescription className={`mt-2`}>5</CardDescription>
+                        <CardDescription className={`mt-2`}>{totalViews}</CardDescription>
                     </div>
                     <Separator orientation="vertical" />
                     <div className={`flex flex-col justify-center items-center cursor-pointer`}>

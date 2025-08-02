@@ -6,6 +6,12 @@ export async function POST(request: Request) {
         const body = await request.json();
         const { data, error } = await createArticle(body);
         if (error) {
+            if (error.message.includes("duplicate")) {
+                return NextResponse.json({
+                    message: "创建失败:文章已存在，试试换个标题",
+                    success: false,
+                }, { status: 500 });
+            }
             throw new Error(error.message);
         }
         return NextResponse.json({

@@ -24,17 +24,27 @@ interface CreateResponse {
     isEdit?: boolean;
 }
 
-function CreateSuccess({ id, slug, isEdit }: CreateResponse) {
+function useBack() {
     const router = useRouter();
-    const startProgress = useProgress();
+    const startProgress = useProgress();;
+    function handleBack() {
+        console.log("back");
+
+        startProgress();
+        router.push("/admin/blog");
+    }
+    return handleBack;
+}
+
+function CreateSuccess({ id, slug, isEdit }: CreateResponse) {
+    const back = useBack();
     const [out, setOut] = useState(3);
     const currentTime = useRef(performance.now());
 
     useEffect(() => {
         const timer = setTimeout(() => {
             startTransition(() => {
-                startProgress();
-                router.push(`/admin/blog`);
+                back();
             });
         }, 3000);
         return () => {
@@ -83,7 +93,7 @@ const CreateForm = (props: PostFormProps) => {
         data: { id: 0, slug: "" },
     });
 
-    const router = useRouter();
+    const back = useBack();
 
     async function handleConfirm(e: FormEvent) {
         e.stopPropagation();
@@ -119,37 +129,30 @@ const CreateForm = (props: PostFormProps) => {
         return <CreateSuccess id={response.data.id} slug={response.data.slug} isEdit={props.isEdit} />;
     }
     return (
-        <form onSubmit={handleConfirm}>
-            <div className='flex gap-2 mb-4'>
-                <Label htmlFor="title" className='w-20 h-9 leading-9'>标题</Label>
-                <Input
-                    type="text"
-                    id="title"
-                    name="title"
-                    placeholder='请输入标题'
-                    required
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-            </div>
-            <div className='flex gap-2 mb-4'>
-                <Label htmlFor="content" className='w-20 h-9 leading-9'>内容</Label>
-                {/* <Textarea
-                    id="content"
-                    name="content"
-                    className='h-64'
-                    placeholder='请输入内容'
-                    required
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                /> */}
-                <MdEditor theme={editorTheme} value={content} onChange={(value: string) => setContent(value)} ></MdEditor>
-            </div>
+        <>
+            <form >
+                <div className='flex gap-2 mb-4'>
+                    <Label htmlFor="title" className='w-20 h-9 leading-9'>标题</Label>
+                    <Input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder='请输入标题'
+                        required
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                </div>
+                <div className='flex gap-2 mb-4'>
+                    <Label htmlFor="content" className='w-20 h-9 leading-9'>内容</Label>
+                    <MdEditor theme={editorTheme} value={content} onChange={(value: string) => setContent(value)} ></MdEditor>
+                </div>
+            </form>
             <div className='flex gap-5 justify-end'>
-                <Button variant='outline' onClick={() => router.back()}>返回</Button>
+                <Button variant='outline' onClick={back}>返回</Button>
                 <ButtonWithLoading onClick={handleConfirm} loading={loading}>发布</ButtonWithLoading>
             </div>
-        </form>
+        </>
     );
 };
 

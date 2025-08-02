@@ -9,18 +9,20 @@ export const metadata: Metadata = {
 
 };
 
-const size = 10;
+const size = 6;
+
+export const revalidate = 60;
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ page: string }> }) {
     const page = Number((await searchParams)?.page) || 1;
-    const { data, count } = await getIndexPageData(page, size);
+    const { data, count, totalViews } = await getIndexPageData(page, size);
     return (
         <div className={`flex `}>
             <div className={`flex-1`}>
                 <Posts data={data} page={page} size={size} count={count}></Posts>
             </div>
             <div className={`w-80 min-w-80 sticky top-16 ml-6`}>
-                <Person count={count}></Person>
+                <Person count={count} totalViews={totalViews}></Person>
                 <div className={`mt-5`}>
                     {/* <Calendar ></Calendar> */}
                 </div>

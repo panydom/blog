@@ -9,20 +9,24 @@ import ArticleView from "./ArticleView";
 import ArticleContent from "./ArticleContent";
 
 interface PostProps {
-    params: Promise<{ id: number }>
+    params: Promise<{ id: number | string; slug: string; }>
 }
+
+// ISR: https://nextjs.org/docs/app/guides/incremental-static-regeneration
+export const revalidate = 60;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
     const { data } = await getRecentArticles();
     if (!data) {
         return [];
     }
-    return data.map(item => ({ id: String(item.id) }));
+    return data.map(item => ({ id: String(item.id), slug: item.slug }));
 }
 
 const Post = async ({ params }: PostProps) => {
-    const { id } = await params;
-    const { data: article } = await getPostDetail(id);
+    const { slug } = await params;
+    const { data: article } = await getPostDetail(slug);
 
     if (!article) {
         notFound();
@@ -49,11 +53,11 @@ const Post = async ({ params }: PostProps) => {
                         预计阅读时长：{Math.max(1, Math.round((article.content?.length || 0) / 400))}分钟
                     </div>
                 </div>
-                <div className='text-neutral-800 dark:text-neutral-100 mt-6'>
+                <article className='text-neutral-800 dark:text-neutral-100 mt-6'>
                     <Suspense fallback={<div>加载中...</div>}>
                         <ArticleContent content={article.content || ""}></ArticleContent>
                     </Suspense>
-                </div>
+                </article>
                 <div className='mt-10 flex justify-between text-neutral-500 dark:text-neutral-100 text-xs'>
                     <div className='flex items-center'>
                         <CalendarRange className='mr-2' size={14}></CalendarRange>

@@ -1,21 +1,33 @@
 import { transliterate, slugify } from "transliteration";
 import { createClientSupabaseClient } from "./supabase";
 import { getCurrentUser } from "@/lib/auth";
-import dayjs from "dayjs";
 
 /**
  * https://supabase.com/docs/reference/javascript/select
  */
 export async function getIndexPageData(page: number, size: number = 10) {
     const supabase = await createClientSupabaseClient();
+
+    // Get paginated articles
     const { data, error, count } = await supabase
         .from("articles")
         .select("*", { count: "exact" })
         .order("updated_at", { ascending: false })
         .range((page - 1) * size, page * size - 1);
 
+    // Get total view count
+    const { data: viewCountData, error: viewCountError } = await supabase
+        .from("articles")
+        .select("view_count")
+        .not("view_count", "is", null);
+
+    const totalViews = viewCountData?.reduce((sum, item) => sum + (item.view_count || 0), 0) || 0;
+
     return {
-        data, count: count || 0, error,
+        data,
+        count: count || 0,
+        totalViews,
+        error: error || viewCountError,
     };
 }
 
@@ -74,9 +86,9 @@ export async function getRecentArticles() {
     const supabase = await createClientSupabaseClient();
     const { data, error } = await supabase
         .from("articles")
-        .select("id")
+        .select("id, slug")
         .order("updated_at", { ascending: false })
-        .limit(10);
+        .limit(6);
 
     return { data, error };
 }
