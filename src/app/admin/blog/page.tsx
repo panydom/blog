@@ -1,11 +1,14 @@
 import { Suspense } from "react";
+import { Link } from "react-transition-progress/next";
 import DataTable from "@/components/data-table";
 import { columns } from "./columns";
-import { getAllArticles } from "@/lib/articles";
+import { adminQueryArticles } from "@/lib/articles";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-transition-progress/next";
 import { Pagination } from "@/components/common/Pagination";
 import { type Metadata } from "next";
+import SearchComponent from "./search";
+import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
+
 export const metadata: Metadata = {
     title: "博客管理",
     description: "博客管理",
@@ -13,13 +16,24 @@ export const metadata: Metadata = {
 
 const size = 10;
 
-const AdminBlogPage = async ({ searchParams }: { searchParams: Promise<{ page: string }> }) => {
-    const page = Number((await searchParams)?.page) || 1;
-    const { data, count } = await getAllArticles(page, size);
+const AdminBlogPage = async ({ searchParams }: { searchParams: Promise<{ page: string; search?: string }> }) => {
+    const { search, page } = await searchParams;
+    const currentPage = Number(page) || 1;
+    const { data, count } = await adminQueryArticles({
+        page: currentPage,
+        size,
+        search,
+    });
 
     return (
         <>
-            <div className="mb-4 flex justify-end">
+            <div className="mb-4 flex justify-between">
+                <div className="relative">
+                    <ProgressBarProvider>
+                        <ProgressBar className="absolute h-1 shadow-lg shadow-blue-600/20 bg-blue-600 top-0 " />
+                        <SearchComponent search={search} />
+                    </ProgressBarProvider>
+                </div>
                 <Link href="/admin/blog/create">
                     <Button>创建博客</Button>
                 </Link>
@@ -38,7 +52,7 @@ const AdminBlogPage = async ({ searchParams }: { searchParams: Promise<{ page: s
                 </colgroup>
             )} />
             <Suspense fallback={<></>}>
-                <Pagination page={page} size={size} count={count}></Pagination>
+                <Pagination page={currentPage} size={size} count={count}></Pagination>
             </Suspense>
         </>
     );

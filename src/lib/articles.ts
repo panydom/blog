@@ -96,19 +96,32 @@ export async function getRecentArticles() {
 /**
  * 控制台获取文章
  * @param page 
- * @param size 
+ * @param size  
  * @returns 
  */
-export async function getAllArticles(page: number, size: number = 10) {
+export async function adminQueryArticles({ page, size, search }: { page: number, size: number, search?: string }) {
     const supabase = await createClientSupabaseClient();
-    const { data, error, count } = await supabase
+    
+    // 创建基础查询
+    let query = supabase
         .from("articles")
-        .select("id, title, slug, view_count, created_at, updated_at", { count: "exact" })
+        .select("id, title, slug, view_count, created_at, updated_at", { count: "exact" });
+
+    // 如果有搜索词，添加全文搜索条件
+    if (search && search.trim()) {
+        const searchTerm = search.trim();
+        query = query.or(`title.ilike.%${searchTerm}%,content.ilike.%${searchTerm}%`);
+    }
+
+    // 执行分页查询
+    const { data, error, count } = await query
         .order("updated_at", { ascending: false })
         .range((page - 1) * size, page * size - 1);
 
     return {
-        data, count: count || 0, error,
+        data, 
+        count: count || 0, 
+        error,
     };
 }
 
