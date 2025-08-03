@@ -18,10 +18,11 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, View, Pencil, Trash } from "lucide-react";
-import DeleteDialog from "./delete-dialog";
+import DeleteDialog from "@/components/common/delete-dialog";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { formatTime } from "@/lib/utils";
+import OverflowEllipsis from "@/components/common/overflow-ellipsis";
 
 export const columns: ColumnDef<PostType>[] = [
     {
@@ -31,15 +32,7 @@ export const columns: ColumnDef<PostType>[] = [
     {
         accessorKey: "title",
         header: "标题",
-        cell: info => (
-            <Tooltip>
-                <TooltipTrigger className='overflow-hidden text-ellipsis max-w-full'>
-                    {info.getValue() as string}
-                </TooltipTrigger>
-                <TooltipContent>
-                    {info.getValue() as string}
-                </TooltipContent>
-            </Tooltip>),
+        cell: info => <OverflowEllipsis content={info.getValue() as string} />,
     },
     {
         accessorKey: "view_count",

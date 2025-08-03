@@ -6,7 +6,7 @@ import { adminQueryArticles } from "@/lib/articles";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/common/Pagination";
 import { type Metadata } from "next";
-import SearchComponent from "./search";
+import SearchComponent from "@/components/common/search";
 import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ const AdminBlogPage = async ({ searchParams }: { searchParams: Promise<{ page: s
                 <div className="relative">
                     <ProgressBarProvider>
                         <ProgressBar className="absolute h-1 shadow-lg shadow-blue-600/20 bg-blue-600 top-0 " />
-                        <SearchComponent search={search} />
+                        <SearchComponent query={search || ""} homepage="admin/blog" placeholder="搜索标题/内容，按回车搜索" />
                     </ProgressBarProvider>
                 </div>
                 <Link href="/admin/blog/create">
@@ -51,9 +51,13 @@ const AdminBlogPage = async ({ searchParams }: { searchParams: Promise<{ page: s
                     <col className="w-12" />
                 </colgroup>
             )} />
-            <Suspense fallback={<></>}>
-                <Pagination page={currentPage} size={size} count={count}></Pagination>
-            </Suspense>
+            {
+                count > size && (
+                    <Suspense fallback={<></>}>
+                        <Pagination page={currentPage} size={size} count={count}></Pagination>
+                    </Suspense>
+                )
+            }
         </>
     );
 };

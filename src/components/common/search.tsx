@@ -7,7 +7,13 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useProgress } from "react-transition-progress";
 
-const SearchComponent = ({ search: query }: { search?: string }) => {
+interface SearchProps {
+    query?: string;
+    homepage: string;
+    placeholder: string;
+}
+
+const SearchComponent = ({ query, homepage, placeholder }: SearchProps) => {
     const [search, setSearch] = useState(query || "");
     const router = useRouter();
     const startProgress = useProgress();
@@ -19,13 +25,13 @@ const SearchComponent = ({ search: query }: { search?: string }) => {
             return;
         }
         startProgress();
-        router.push(`/admin/blog?search=${searchText}&page=1`);
+        router.push(`/${homepage}?search=${searchText}&page=1`);
     }
 
     function handleClear() {
         setSearch("");
         startProgress();
-        router.push(`/admin/blog?page=1`);
+        router.push(`/${homepage}?page=1`);
     }
 
     return (
@@ -33,7 +39,7 @@ const SearchComponent = ({ search: query }: { search?: string }) => {
             <Input
                 className="w-72"
                 type="text"
-                placeholder="搜索标题/内容，按回车搜索"
+                placeholder={placeholder}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => {

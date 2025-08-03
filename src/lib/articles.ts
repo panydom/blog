@@ -67,7 +67,6 @@ export async function incrementViewCount(id: number) {
     // Use the RPC function created in the Supabase SQL Editor for an atomic increment.
     // This prevents race conditions.
     const supabase = await createClientSupabaseClient();
-    // @ts-expect-error never
     const { error } = await supabase.rpc("increment_view_count", {
         article_id: id,
     });
@@ -101,7 +100,7 @@ export async function getRecentArticles() {
  */
 export async function adminQueryArticles({ page, size, search }: { page: number, size: number, search?: string }) {
     const supabase = await createClientSupabaseClient();
-    
+
     // 创建基础查询
     let query = supabase
         .from("articles")
@@ -119,8 +118,8 @@ export async function adminQueryArticles({ page, size, search }: { page: number,
         .range((page - 1) * size, page * size - 1);
 
     return {
-        data, 
-        count: count || 0, 
+        data,
+        count: count || 0,
         error,
     };
 }
