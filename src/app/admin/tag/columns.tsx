@@ -35,7 +35,7 @@ export const columns: ColumnDef<TagType>[] = [
         cell: info => (<OverflowEllipsis content={info.getValue() as string} />),
     },
     {
-        accessorKey: "view_count",
+        accessorKey: "article_count",
         header: "关联数量",
     },
     {

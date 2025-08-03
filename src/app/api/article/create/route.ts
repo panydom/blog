@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { createArticle } from "@/lib/articles";
+import { createArticleTagRelation } from "@/lib/article-tags";
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
+        const { tags, ...body } = await request.json();
         const { data, error } = await createArticle(body);
         if (error) {
             if (error.message.includes("duplicate")) {
@@ -13,6 +14,19 @@ export async function POST(request: Request) {
                 }, { status: 500 });
             }
             throw new Error(error.message);
+        }
+        const useTags = (tags || []).map((tag: string) => {
+            const tagId = parseInt(tag, 10);
+            if (isNaN(tagId)) {
+                return null;
+            }
+            return tagId;
+        });
+        if (useTags.length && data?.id) {
+            const { error } = await createArticleTagRelation(data?.id, useTags);
+            if (error) {
+                throw new Error(error.message);
+            }
         }
         return NextResponse.json({
             data,

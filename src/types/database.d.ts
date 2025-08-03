@@ -39,6 +39,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_tags: {
+        Row: {
+          article_id: number
+          created_at: string | null
+          tag_id: number
+        }
+        Insert: {
+          article_id?: number
+          created_at?: string | null
+          tag_id: number
+        }
+        Update: {
+          article_id?: number
+          created_at?: string | null
+          tag_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_tags_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "article_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       articles: {
         Row: {
           content: string | null

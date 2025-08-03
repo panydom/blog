@@ -15,5 +15,6 @@ export function formatTime(time: string | null) {
   if (!time) {
     return "";
   }
-  return dayjs.utc(time).local().format("YYYY-MM-DD HH:mm:ss");
+  // return dayjs.utc(time).local().format("YYYY-MM-DD HH:mm:ss");
+  return dayjs(time).tz("Asia/Shanghai").format("YYYY-MM-DD HH:mm:ss");
 }

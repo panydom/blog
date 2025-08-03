@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent, startTransition, useEffect, useRef } from "react";
-import { useSetState } from "react-use";
+import { useSetState, useMount } from "react-use";
 import { toast } from "sonner";
 import { PartyPopper } from "lucide-react";
 import { useProgress } from "react-transition-progress";
@@ -17,6 +17,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ButtonWithLoading from "@/components/common/ButtonWithLoading";
+import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
+import { TagType } from "@/lib/tags";
 
 interface CreateResponse {
     id: number;
@@ -28,8 +30,6 @@ function useBack() {
     const router = useRouter();
     const startProgress = useProgress();;
     function handleBack() {
-        console.log("back");
-
         startProgress();
         router.push("/admin/blog");
     }
@@ -80,6 +80,7 @@ interface PostFormProps {
     content?: string;
     isEdit?: boolean;
     id?: number;
+    tags?: Array<Option>;
 }
 
 const CreateForm = (props: PostFormProps) => {
@@ -87,7 +88,9 @@ const CreateForm = (props: PostFormProps) => {
     const editorTheme: Themes = theme === "dark" ? "dark" : "light";
     const [title, setTitle] = useState(props.title || "");
     const [content, setContent] = useState(props.content || "");
+    const [tags, setTags] = useState<Array<Option>>(props.tags || []);
     const [loading, setLoading] = useState(false);
+    const [tagOptions, setTagOptions] = useState<Array<Option>>([]);
     const [response, setResponse] = useSetState({
         success: false,
         data: { id: 0, slug: "" },
@@ -106,6 +109,7 @@ const CreateForm = (props: PostFormProps) => {
                 body: JSON.stringify({
                     title,
                     content,
+                    tags: tags.map(tag => Number(tag.value)),
                 }),
             });
             const res: ResponseData<CreateResponse> = await response.json();
@@ -125,6 +129,19 @@ const CreateForm = (props: PostFormProps) => {
         }
     }
 
+    useMount(async () => {
+        const res = await fetch("/api/tags/list");
+        const resJson: ResponseData<TagType[]> = await res.json();
+        if (!resJson.success) {
+            toast.error(resJson.message);
+            return;
+        }
+        setTagOptions(resJson.data?.map(tag => ({
+            value: tag.id.toString(),
+            label: tag.name,
+        })));
+    });
+
     if (response.success) {
         return <CreateSuccess id={response.data.id} slug={response.data.slug} isEdit={props.isEdit} />;
     }
@@ -132,7 +149,7 @@ const CreateForm = (props: PostFormProps) => {
         <>
             <form >
                 <div className='flex gap-2 mb-4'>
-                    <Label htmlFor="title" className='w-20 h-9 leading-9'>标题</Label>
+                    <Label htmlFor="title" className='min-w-20 w-20 h-9 leading-9'>标题</Label>
                     <Input
                         type="text"
                         id="title"
@@ -144,8 +161,27 @@ const CreateForm = (props: PostFormProps) => {
                     />
                 </div>
                 <div className='flex gap-2 mb-4'>
-                    <Label htmlFor="content" className='w-20 h-9 leading-9'>内容</Label>
-                    <MdEditor theme={editorTheme} value={content} onChange={(value: string) => setContent(value)} ></MdEditor>
+                    <Label htmlFor="tags" className='min-w-20 w-20 h-9 leading-9'>标签</Label>
+                    <MultipleSelector
+                        value={tags}
+                        onChange={setTags}
+                        options={tagOptions}
+                        hidePlaceholderWhenSelected
+                        placeholder="选择标签"
+                        creatable={false}
+                        loadingIndicator={
+                            <p className="py-2 text-center text-lg leading-10 text-muted-foreground">加载中...</p>
+                        }
+                        emptyIndicator={
+                            <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                                没有找到结果。
+                            </p>
+                        }
+                    />
+                </div>
+                <div className='flex gap-2 mb-4'>
+                    <Label htmlFor="content" className='min-w-20 w-20 h-9 leading-9'>内容</Label>
+                    <MdEditor theme={editorTheme} noMermaid value={content} onChange={(value: string) => setContent(value)} ></MdEditor>
                 </div>
             </form>
             <div className='flex gap-5 justify-end'>
