@@ -104,13 +104,17 @@ const CreateForm = (props: PostFormProps) => {
         try {
             setLoading(true);
             const url = props.isEdit ? "/api/article/update/" + props.id : "/api/article/create";
+            const data: { title: string; content: string; tags: number[]; prevTags?: number[] } = {
+                title,
+                content,
+                tags: tags.map(tag => Number(tag.value)),
+            };
+            if (props.isEdit) {
+                data.prevTags = props.tags?.map(tag => Number(tag.value));
+            }
             const response = await fetch(url, {
                 method: props.isEdit ? "PUT" : "POST",
-                body: JSON.stringify({
-                    title,
-                    content,
-                    tags: tags.map(tag => Number(tag.value)),
-                }),
+                body: JSON.stringify(data),
             });
             const res: ResponseData<CreateResponse> = await response.json();
 

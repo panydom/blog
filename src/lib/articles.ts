@@ -1,3 +1,4 @@
+import { difference } from "lodash-es";
 import { transliterate, slugify } from "transliteration";
 import { createClientSupabaseClient } from "./supabase";
 import { getCurrentUser } from "@/lib/auth";
@@ -43,11 +44,21 @@ export async function getPostDetail(identifier: number | string) {
     const isId = typeof identifier === "number" || !isNaN(Number(identifier));
     const { data, error } = await supabase
         .from("articles")
-        .select("*")
+        .select(`
+            *,
+            tags:article_tags(
+                tag:tags!inner(*)
+            )
+        `)
         .eq(isId ? "id" : "slug", identifier)
         .single();
+    const processedData = data ? {
+        ...data,
+        tags: data.tags?.map(at => at.tag) || [],
+    } : null;
 
-    return { data, error };
+
+    return { data: processedData, error };
 }
 
 /**
@@ -175,21 +186,36 @@ export async function articleExists(id: number) {
  * @param article 
  * @returns 
  */
-export async function updateArticle(id: number, article: { title: string; content: string }) {
+export async function updateArticle(
+    id: number,
+    article: { title: string; content: string; tags: number[], prevTags: number[] }
+) {
     const { data: { user }, isAdmin } = await getCurrentUser();
     if (!user || !isAdmin) {
         throw new Error("无权限");
     }
+    const { title, content, tags, prevTags } = article;
     const supabase = await createClientSupabaseClient();
-    const newSlug = slugify(article.title);
-    const { error } = await supabase
-        .from("articles")
-        .update({
-            ...article,
-            slug: newSlug,
-            updated_at: new Date().toISOString(),
-        })
-        .eq("id", id);
+    const newSlug = slugify(title);
+    const addedTags = difference<number>(tags, prevTags);
+    const removedTags = difference<number>(prevTags, tags);
+    const { error } = await supabase.rpc("update_article_with_tags", {
+        p_article_id: id,
+        p_title: title,
+        p_content: content,
+        p_slug: newSlug,
+        p_added_tags: addedTags,
+        p_removed_tags: removedTags,
+        update_at: new Date().toISOString(),
+    });
+    // const { error } = await supabase
+    //     .from("articles")
+    //     .update({
+    //         ...article,
+    //         slug: newSlug,
+    //         updated_at: new Date().toISOString(),
+    //     })
+    //     .eq("id", id);
     return { error, data: { slug: newSlug } };
 }
 

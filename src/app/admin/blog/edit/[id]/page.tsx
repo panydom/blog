@@ -6,6 +6,7 @@ import { Link } from "react-transition-progress/next";
 const EditPost = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
     const { data: article } = await getPostDetail(id);
+    const tags = article?.tags?.map(tag => ({ value: tag.id.toString(), label: tag.name! })) || [];
 
     if (!article) {
         return <div className='w-[620px] mx-auto mt-40 flex items-center justify-center'>
@@ -18,7 +19,7 @@ const EditPost = async ({ params }: { params: Promise<{ id: string }> }) => {
         <div className='w-full mx-auto'>
             <div className='text-2xl font-bold'>编辑博客</div>
             <div className='mt-10'>
-                <PostForm title={article?.title || ""} content={article?.content || ""} isEdit id={article?.id} />
+                <PostForm title={article?.title || ""} content={article?.content || ""} isEdit id={article?.id} tags={tags} />
             </div>
         </div>
     );

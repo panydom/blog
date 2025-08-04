@@ -1,11 +1,6 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import type { PostType } from "@/lib/articles";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Link } from "react-transition-progress/next";
 import NextLink from "next/link";
 import { Button } from "@/components/ui/button";
