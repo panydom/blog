@@ -6,6 +6,7 @@ import { Link } from "react-transition-progress/next";
 import { Pagination, type PaginationProps } from "@/components/common/Pagination";
 import type { PostData } from "@/lib/articles";
 import { formatTime } from "@/lib/utils";
+import { cookies } from "next/headers";
 
 interface PostsProps extends PaginationProps {
     data: PostData;
@@ -13,8 +14,9 @@ interface PostsProps extends PaginationProps {
 
 export const experimental_ppr = true;
 
-const Posts = ({ data, count, page, size }: PostsProps) => {
-
+const Posts = async ({ data, count, page, size }: PostsProps) => {
+    const cookieStore = await cookies();
+    const timezone = cookieStore.get("user-timezone")?.value;
     return (
         <>
             {
@@ -37,7 +39,7 @@ const Posts = ({ data, count, page, size }: PostsProps) => {
                                     </div>
                                     <div>
                                         <div className="flex items-center">
-                                            <CalendarDays size={14} className="mr-2"></CalendarDays>最近更新：{formatTime(article.updated_at)}
+                                            <CalendarDays size={14} className="mr-2"></CalendarDays>最近更新：{formatTime(article.updated_at, timezone)}
                                         </div>
                                     </div>
                                 </div>

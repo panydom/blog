@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Link } from "react-transition-progress/next";
 import { formatTime } from "@/lib/utils";
 import { CalendarDays, CalendarRange, Eye, Clock3 } from "lucide-react";
+import { cookies } from "next/headers";
 
 import ArticleView from "./ArticleView";
 import ArticleContent from "./ArticleContent";
@@ -27,6 +28,8 @@ export async function generateStaticParams() {
 const Post = async ({ params }: PostProps) => {
     const { slug } = await params;
     const { data: article } = await getPostDetail(slug);
+    const cookieStore = await cookies();
+    const timezone = cookieStore.get("user-timezone")?.value;
 
     if (!article) {
         notFound();
@@ -42,7 +45,7 @@ const Post = async ({ params }: PostProps) => {
                 <div className='text-neutral-500 dark:text-neutral-100 mt-10 text-xs flex'>
                     <div className='flex items-center'>
                         <CalendarDays className='mr-2' size={14}></CalendarDays>
-                        最后更新时间：{formatTime(article.updated_at)}
+                        最后更新时间：{formatTime(article.updated_at, timezone)}
                     </div>
                     <div className='ml-4 flex items-center'>
                         <Eye size={14} className="mr-2"></Eye>

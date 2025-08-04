@@ -11,10 +11,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatTime(time: string | null) {
+/**
+ * 通过UTC将时间标准化转换
+ * @param time 
+ * @param timezone 
+ * @returns 
+ */
+export function formatTime(time: string | null, timezone?: string) {
   if (!time) {
     return "";
   }
-  // return dayjs.utc(time).local().format("YYYY-MM-DD HH:mm:ss");
-  return dayjs(time).tz("Asia/Shanghai").format("YYYY-MM-DD HH:mm:ss");
+  if (!timezone) {
+    // 客户端调用直接使用local显示本地时间
+    return dayjs.utc(time).local().format("YYYY-MM-DD HH:mm:ss");
+  }
+  // 服务器端调用需要指明时区
+  return dayjs.utc(time).tz(timezone).format("YYYY-MM-DD HH:mm:ss");
 }
