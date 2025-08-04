@@ -140,21 +140,20 @@ export async function adminQueryArticles({ page, size, search }: { page: number,
  * @param article 
  * @returns 
  */
-export async function createArticle(article: { title: string; content: string }) {
+export async function createArticle(article: { title: string; content: string, tags: number[] }) {
     const { data: { user }, isAdmin } = await getCurrentUser();
     if (!user || !isAdmin) {
         throw new Error("无权限");
     }
     const supabase = await createClientSupabaseClient();
-    const { data, error } = await supabase
-        .from("articles")
-        .insert({
-            ...article,
-            slug: slugify(article.title),
-            updated_at: new Date().toISOString(),
-            created_at: new Date().toISOString(),
-        })
-        .select("id, slug")
+    const { title, content, tags } = article;
+    const { data, error } = await supabase.rpc("create_article_with_tags", {
+        p_title: title,
+        p_content: content,
+        p_slug: slugify(title),
+        p_tag_ids: tags,
+        created_at: new Date().toISOString(),
+    })
         .single();
     return { data, error };
 }

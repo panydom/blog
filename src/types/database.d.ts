@@ -131,6 +131,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_article_with_tags: {
+        Args: {
+          p_title: string
+          p_content: string
+          p_slug: string
+          created_at: string
+          p_tag_ids?: number[]
+        }
+        Returns: Json
+      }
       increment_view_count: {
         Args: { article_id: number }
         Returns: undefined
