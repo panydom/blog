@@ -26,11 +26,13 @@ const Posts = async ({ data, count, page, size }: PostsProps) => {
                             <div className="w-36 h-36 min-w-36 relative rounded-2xl overflow-hidden" >
                                 <Image src="/blog.png" alt={article.title + "的图片"} style={{ objectFit: "cover" }} fill></Image>
                             </div>
-                            <div className="ml-4 w-full">
-                                <div className="line-clamp-2 overflow-hidden font-bold text-lg cursor-pointer">
-                                    <Link href={`/article/${article.slug || article.id}`}>{article.title}</Link>
+                            <div className="ml-4 w-full flex flex-col justify-between">
+                                <div>
+                                    <div className="line-clamp-2 overflow-hidden font-bold text-lg cursor-pointer">
+                                        <Link href={`/article/${article.slug || article.id}`}>{article.title}</Link>
+                                    </div>
+                                    <div className="line-clamp-2 overflow-hidden mt-2 text-neutral-500 dark:text-neutral-100 break-all">{article.content}</div>
                                 </div>
-                                <div className="line-clamp-2 overflow-hidden mt-4 text-neutral-500 dark:text-neutral-100 break-all">{article.content}</div>
                                 <div className="text-neutral-500 dark:text-neutral-100 flex items-center justify-between mt-2 w-full">
                                     <div>
                                         <div className="flex items-center">

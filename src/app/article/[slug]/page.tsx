@@ -64,7 +64,7 @@ const Post = async ({ params }: PostProps) => {
                 <div className='mt-10 flex justify-between text-neutral-500 dark:text-neutral-100 text-xs'>
                     <div className='flex items-center'>
                         <CalendarRange className='mr-2' size={14}></CalendarRange>
-                        创建于：{formatTime(article.created_at)}
+                        创建于：{formatTime(article.created_at, timezone)}
                     </div>
                 </div>
             </div>

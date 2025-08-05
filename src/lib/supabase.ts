@@ -6,6 +6,7 @@ import type { Database } from "@/types/database";
 
 const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_KEY!;
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 export const createClientSupabaseClient = async () => {
     return createClient<Database>(supabaseUrl, supabaseKey, {
@@ -18,6 +19,15 @@ export const createClientSupabaseClient = async () => {
             headers: {
                 "X-Client-Marker": "zhu-yu-mo",
             },
+        },
+    });
+};
+
+export const createAdminSupabaseClient = async () => {
+    return createClient<Database>(supabaseUrl, serviceRoleKey, {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false,
         },
     });
 };

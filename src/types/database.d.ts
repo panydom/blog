@@ -39,6 +39,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      users: {
+        Row: {
+          id: string
+          email: string
+          created_at: string
+          updated_at: string | null
+          // Add other user fields as needed
+        }
+        Insert: {
+          id: string
+          email: string
+          created_at?: string
+          updated_at?: string | null
+          // Add other user fields as needed
+        }
+        Update: {
+          id?: string
+          email?: string
+          created_at?: string
+          updated_at?: string | null
+          // Add other user fields as needed
+        }
+        Relationships: []
+      },
       article_tags: {
         Row: {
           article_id: number
