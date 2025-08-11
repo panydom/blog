@@ -48,13 +48,16 @@ export async function getPostDetail(identifier: number | string) {
             *,
             tags:article_tags(
                 tag:tags!inner(*)
-            )
+            ),
+            comments:comment(*)
         `)
         .eq(isId ? "id" : "slug", identifier)
         .single();
+
     const processedData = data ? {
         ...data,
         tags: data.tags?.map(at => at.tag) || [],
+        comments: (data.comments || []).sort((prev, next) => new Date(next.created_at).getTime() - new Date(prev.created_at).getTime()),
     } : null;
 
 

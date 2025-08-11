@@ -35,11 +35,11 @@ const RegisterPage = () => {
     ) : (
         <div className='w-[400px] mx-auto '>
             <Form
-                title="Register an Account "
-                submitLabel='Register'
+                title="注册账号"
+                submitLabel='注册'
                 description={(
                     <>
-                        have an account? <Link href="/login" className='text-blue-500 hover:underline'>Login</Link>
+                        已有账号？ 前往<Link href="/login" className='text-blue-500 hover:underline'>登录</Link>
                     </>
                 )}
                 onSuccess={onSuccess}

@@ -3,6 +3,7 @@ import { useEffect, type ReactNode } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Loader2, Ban } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/common/Loading";
 
 interface AuthProps {
     requireLogin?: boolean;
@@ -36,9 +37,7 @@ const AuthComponent = ({ requireAdmin = false, requireLogin = false, children }:
 
     if (loading) {
         return (
-            <div className='mt-[200px] text-center flex items-center justify-center'>
-                <Loader2 className="animate-spin mr-4"></Loader2>验证权限中...
-            </div>
+            <Loading className="mt-[200px]">验证权限中...</Loading>
         );
     }
 

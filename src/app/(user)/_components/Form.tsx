@@ -58,12 +58,12 @@ const Form = ({
             </CardHeader>
             <CardContent className="space-y-2">
                 <div className='space-y-1'>
-                    <Label htmlFor='email'>Email</Label>
-                    <Input id="email" name="email" placeholder='you@google.com'></Input>
+                    <Label htmlFor='email'>邮箱</Label>
+                    <Input id="email" name="email" placeholder='请输入邮箱'></Input>
                 </div>
                 <div className="space-y-1 mt-4">
-                    <Label htmlFor="password">Password</Label>
-                    <Input id="password" name="password" placeholder="*****" />
+                    <Label htmlFor="password">密码</Label>
+                    <Input id="password" name="password" placeholder="请输入密码" />
                 </div>
             </CardContent>
         </Card>

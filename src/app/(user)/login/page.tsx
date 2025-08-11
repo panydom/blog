@@ -11,9 +11,9 @@ const Login = () => {
 
     return (
         <div className='w-[400px] mx-auto mt-[200px]'>
-            <Form isLogin title='Login' submitLabel='Login' description={(
+            <Form isLogin title='登录' submitLabel='登录' description={(
                 <>
-                    do not have an account? <Link href="/register" className='text-blue-500 hover:underline'>Sign Up</Link>
+                    没有账号？前往 <Link href="/register" className='text-blue-500 hover:underline'>注册</Link>
                 </>
             )}>
             </Form>

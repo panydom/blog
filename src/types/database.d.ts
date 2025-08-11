@@ -39,30 +39,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      users: {
-        Row: {
-          id: string
-          email: string
-          created_at: string
-          updated_at: string | null
-          // Add other user fields as needed
-        }
-        Insert: {
-          id: string
-          email: string
-          created_at?: string
-          updated_at?: string | null
-          // Add other user fields as needed
-        }
-        Update: {
-          id?: string
-          email?: string
-          created_at?: string
-          updated_at?: string | null
-          // Add other user fields as needed
-        }
-        Relationships: []
-      },
       article_tags: {
         Row: {
           article_id: number
@@ -125,6 +101,47 @@ export type Database = {
           view_count?: number | null
         }
         Relationships: []
+      }
+      comment: {
+        Row: {
+          article_id: number | null
+          content: string | null
+          created_at: string
+          email: string | null
+          id: number
+          nickname: string | null
+          parent_id: number | null
+          user_id: string | null
+        }
+        Insert: {
+          article_id?: number | null
+          content?: string | null
+          created_at: string
+          email?: string | null
+          id?: number
+          nickname?: string | null
+          parent_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          article_id?: number | null
+          content?: string | null
+          created_at?: string
+          email?: string | null
+          id?: number
+          nickname?: string | null
+          parent_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tags: {
         Row: {
@@ -315,4 +332,4 @@ export const Constants = {
   public: {
     Enums: {},
   },
-} as const;
+} as const
