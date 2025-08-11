@@ -54,11 +54,11 @@ const AdminBlogPage = async ({ searchParams }: { searchParams: Promise<{ page: s
                 </colgroup>
             )} />
             {
-                count > size && (
+                count > size ? (
                     <Suspense fallback={<></>}>
                         <Pagination page={currentPage} size={size} count={count}></Pagination>
                     </Suspense>
-                )
+                ) : null
             }
         </>
     );

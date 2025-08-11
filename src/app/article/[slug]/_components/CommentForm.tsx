@@ -66,13 +66,13 @@ const CommentForm = ({ articleId }: CommentFormProps) => {
     return (
         <div className="mt-16">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">发表评论</h3>
-            {!user && (
+            {!user ? (
                 <p>请在<Link
                     className="font-medium text-blue-600 hover:text-blue-500 underline"
                     href={`/login?redirect=${encodeURIComponent(window.location.href)}`}
                 >登录</Link>
                     后，再发表评论</p>
-            )}
+            ) : null}
             <div >
                 <div className='flex gap-2 mb-4'>
                     <Label htmlFor="nickname" className='min-w-20 w-20 h-9 leading-9'>昵称</Label>

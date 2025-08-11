@@ -71,7 +71,7 @@ const Post = async ({ params }: PostProps) => {
                         </div>
                     </div>
                     {
-                        article?.tags?.length && (
+                        article?.tags?.length ? (
                             <div className='mt-6 text-neutral-500 dark:text-neutral-100 text-xs'>
                                 <div className='flex items-center'>
                                     <Tag className='mr-2' size={14}></Tag>标签：
@@ -80,15 +80,15 @@ const Post = async ({ params }: PostProps) => {
                                     ))}
                                 </div>
                             </div>
-                        )
+                        ) : null
                     }
                 </div>
             </ArticleView>
             <CommentForm articleId={article?.id} />
             {
-                article?.comments?.length && (
+                article?.comments?.length ? (
                     <Comments comments={article.comments} />
-                )
+                ) : null
             }
         </>
     );

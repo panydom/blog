@@ -32,11 +32,11 @@ const AdminCommentPage = async ({ searchParams }: { searchParams: Promise<{ page
                 </colgroup>
             )} />
             {
-                count > size && (
+                count > size ? (
                     <Suspense fallback={<></>}>
                         <Pagination page={currentPage} size={size} count={count}></Pagination>
                     </Suspense>
-                )
+                ) : null
             }
         </>
     );

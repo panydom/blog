@@ -37,14 +37,14 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
                                 menuItems.map((item, index) => {
                                     return (
                                         <Fragment key={item.href}>
-                                            {index !== 0 && <Separator />}
+                                            {index !== 0 ? <Separator /> : null}
                                             <Link href={item.href}>
                                                 <div className={cls(menuItemStyle)}>
                                                     <item.icon className="mr-2" size={14} />{item.label}
                                                     {(
                                                         (item.exact && pathname === item.href)
                                                         || (!item.exact && pathname.startsWith(item.href))
-                                                    ) && <ArrowLeft className="ml-2" size={14} />}
+                                                    ) ? <ArrowLeft className="ml-2" size={14} /> : null}
                                                 </div>
                                             </Link>
                                         </Fragment>

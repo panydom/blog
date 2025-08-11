@@ -20,7 +20,7 @@ const Posts = async ({ data, count, page, size }: PostsProps) => {
     return (
         <>
             {
-                data && data.map((article) => {
+                data?.length ? data.map((article) => {
                     return (
                         <div key={article.id} className="flex shadow-sm border p-4 rounded-2xl transform hover:-translate-y-1 transition-all duration-200 not-first:mt-6">
                             <div className="w-36 h-36 min-w-36 relative rounded-2xl overflow-hidden" >
@@ -48,7 +48,7 @@ const Posts = async ({ data, count, page, size }: PostsProps) => {
                             </div>
                         </div>
                     );
-                })
+                }) : null
             }
             <Suspense fallback={<></>}>
                 <Pagination page={page} size={size} count={count}></Pagination>

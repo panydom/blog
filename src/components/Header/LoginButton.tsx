@@ -31,14 +31,14 @@ const LoginButton = () => {
                 <DropdownMenuLabel className="px-2 py-1.5 text-sm font-semibold">账号设置</DropdownMenuLabel>
                 <DropdownMenuSeparator></DropdownMenuSeparator>
                 {
-                    isAdmin && (
+                    isAdmin ? (
                         <Link href='/admin'>
                             <DropdownMenuItem>
                                 <SquareChevronRight />
                                 <span>控制台</span>
                             </DropdownMenuItem>
                         </Link>
-                    )
+                    ) : null
                 }
                 <DropdownMenuItem onClick={logout}>
                     <LogOut />
